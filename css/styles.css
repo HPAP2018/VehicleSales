@@ -1,0 +1,187 @@
+:root {
+  --ford-blue: #003499;
+  --ford-light: #0066cc;
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --border: #dde3ee;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --accent: #e8f0fe;
+  --positive: #15803d;
+  --negative: #b91c1c;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+header {
+  background: var(--ford-blue);
+  color: #fff;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  height: 64px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+header svg { flex-shrink: 0; }
+header h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: .02em; }
+header .subtitle { font-size: .8rem; opacity: .75; margin-top: 2px; }
+
+/* ── Layout ── */
+.page-wrap { max-width: 1400px; margin: 0 auto; padding: 1.5rem 1.5rem 3rem; }
+
+/* ── Controls ── */
+.controls {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.ctrl-group { display: flex; flex-direction: column; gap: .35rem; min-width: 160px; }
+.ctrl-group label { font-size: .75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.ctrl-group select, .ctrl-group input[type=text] {
+  padding: .45rem .7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .9rem;
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s;
+}
+.ctrl-group select:focus, .ctrl-group input:focus { border-color: var(--ford-light); }
+.ctrl-group.search { min-width: 200px; }
+
+.view-toggle { display: flex; gap: .5rem; margin-left: auto; }
+.view-toggle button {
+  padding: .45rem .9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: .85rem;
+  display: flex; align-items: center; gap: .35rem;
+  transition: all .15s;
+}
+.view-toggle button.active { background: var(--ford-blue); color: #fff; border-color: var(--ford-blue); }
+
+/* ── Summary Cards ── */
+.summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+.card .card-label { font-size: .72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .4rem; }
+.card .card-value { font-size: 1.55rem; font-weight: 700; color: var(--ford-blue); }
+.card .card-sub { font-size: .78rem; color: var(--muted); margin-top: .25rem; }
+
+/* ── Chart panel ── */
+.chart-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.chart-panel h2 { font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: 1rem; }
+.chart-wrap { position: relative; height: 320px; }
+canvas { width: 100% !important; }
+
+/* ── Data table ── */
+.table-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.table-panel h2 { font-size: .95rem; font-weight: 700; padding: 1rem 1.5rem .6rem; border-bottom: 1px solid var(--border); }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+th {
+  background: var(--accent);
+  color: var(--ford-blue);
+  font-weight: 700;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: .6rem 1rem;
+  text-align: right;
+  position: sticky; top: 0;
+  white-space: nowrap;
+}
+th:first-child { text-align: left; }
+td { padding: .55rem 1rem; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td:first-child { text-align: left; font-weight: 600; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--accent); }
+.null-cell { color: #c0c8d8; }
+.total-row td { font-weight: 700; background: #f8faff; border-top: 2px solid var(--border); }
+
+/* ── Retail sales table ── */
+.pct-pos { color: var(--positive); font-weight: 600; }
+.pct-neg { color: var(--negative); font-weight: 600; }
+
+/* ── Data type badge ── */
+.badge {
+  display: inline-block;
+  padding: .2rem .6rem;
+  border-radius: 99px;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.badge-prod { background: #dbeafe; color: #1e40af; }
+.badge-sales { background: #dcfce7; color: #166534; }
+
+/* ── Info bar ── */
+.info-bar {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .6rem 1rem;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  font-size: .8rem;
+  color: #92400e;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--muted);
+}
+.empty-state svg { margin-bottom: 1rem; opacity: .4; }
+.empty-state p { font-size: .95rem; }
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  header { padding: 0 1rem; }
+  .page-wrap { padding: 1rem .75rem 2rem; }
+  .controls { padding: 1rem; gap: .75rem; }
+  .view-toggle { margin-left: 0; }
+  .chart-wrap { height: 220px; }
+}

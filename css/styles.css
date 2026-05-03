@@ -328,9 +328,10 @@ tr:hover td { background: var(--accent); }
   flex-shrink: 0;
   margin-top: 3px;
 }
-.plant-dot.usa    { background: var(--ford-blue); }
-.plant-dot.canada { background: #c8102e; }
-.plant-dot.mexico { background: #e67e22; }
+.plant-dot.americas { background: var(--ford-blue); }
+.plant-dot.europe   { background: #c8102e; }
+.plant-dot.asia     { background: #27ae60; }
+.plant-dot.africa   { background: #e67e22; }
 
 .plant-card-info { flex: 1; min-width: 0; }
 .plant-name { font-size: .86rem; font-weight: 700; color: var(--text); line-height: 1.3; }
@@ -344,9 +345,10 @@ tr:hover td { background: var(--accent); }
   white-space: nowrap;
   flex-shrink: 0;
 }
-.country-badge.usa    { background: #dbeafe; color: #1e40af; }
-.country-badge.canada { background: #fee2e2; color: #991b1b; }
-.country-badge.mexico { background: #fef3c7; color: #92400e; }
+.country-badge.americas { background: #dbeafe; color: #1e40af; }
+.country-badge.europe   { background: #fee2e2; color: #991b1b; }
+.country-badge.asia     { background: #dcfce7; color: #166534; }
+.country-badge.africa   { background: #fef3c7; color: #92400e; }
 
 /* ── Vehicle list inside card ── */
 .vehicle-tags { display: flex; flex-wrap: wrap; gap: .3rem; }
@@ -376,9 +378,10 @@ tr:hover td { background: var(--accent); }
   transition: transform .15s;
   cursor: pointer;
 }
-.map-marker.usa    { background: var(--ford-blue); }
-.map-marker.canada { background: #c8102e; }
-.map-marker.mexico { background: #e67e22; }
+.map-marker.americas { background: var(--ford-blue); }
+.map-marker.europe   { background: #c8102e; }
+.map-marker.asia     { background: #27ae60; }
+.map-marker.africa   { background: #e67e22; }
 .map-marker.active {
   width: 20px; height: 20px;
   border: 3px solid #fff;

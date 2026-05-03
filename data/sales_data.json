@@ -131,44 +131,11 @@
       "Stripped Chassis":           {"Jan":1139,"Feb":1547,"Mar":2831,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":5517}
     }
   },
-  "retail_sales": {
-    "2022": {
-      "December": {
-        "Ford/Fusion":          {"current_month":0,"prior_year_month":47,"month_change_pct":-100.0,"ytd_current":0,"ytd_prior":11781,"ytd_change_pct":-100.0},
-        "Ford/GT":              {"current_month":10,"prior_year_month":14,"month_change_pct":-28.6,"ytd_current":99,"ytd_prior":143,"ytd_change_pct":-30.8},
-        "Ford/Mustang":         {"current_month":3861,"prior_year_month":4564,"month_change_pct":-15.4,"ytd_current":47566,"ytd_prior":52414,"ytd_change_pct":-9.2},
-        "Ford/EcoSport":        {"current_month":560,"prior_year_month":2992,"month_change_pct":-81.3,"ytd_current":29193,"ytd_prior":40659,"ytd_change_pct":-28.2},
-        "Ford/Bronco Sport":    {"current_month":7166,"prior_year_month":6278,"month_change_pct":14.1,"ytd_current":99547,"ytd_prior":108169,"ytd_change_pct":-8.0},
-        "Ford/Escape":          {"current_month":9200,"prior_year_month":10704,"month_change_pct":-14.1,"ytd_current":137370,"ytd_prior":145415,"ytd_change_pct":-5.5},
-        "Ford/Bronco":          {"current_month":10412,"prior_year_month":9168,"month_change_pct":13.6,"ytd_current":117057,"ytd_prior":35023,"ytd_change_pct":234.2},
-        "Ford/Mustang Mach-E":  {"current_month":4775,"prior_year_month":2349,"month_change_pct":103.3,"ytd_current":39458,"ytd_prior":27140,"ytd_change_pct":45.4},
-        "Ford/Edge":            {"current_month":6893,"prior_year_month":11456,"month_change_pct":-39.8,"ytd_current":85465,"ytd_prior":85225,"ytd_change_pct":0.3},
-        "Ford/Explorer":        {"current_month":19103,"prior_year_month":20715,"month_change_pct":-7.8,"ytd_current":207673,"ytd_prior":219871,"ytd_change_pct":-5.5},
-        "Ford/Expedition":      {"current_month":8384,"prior_year_month":7559,"month_change_pct":10.9,"ytd_current":62007,"ytd_prior":81988,"ytd_change_pct":-24.4},
-        "Ford/F-Series":        {"current_month":75076,"prior_year_month":62496,"month_change_pct":20.1,"ytd_current":653957,"ytd_prior":726004,"ytd_change_pct":-9.9},
-        "Ford/F-150 Lightning": {"current_month":2359,"prior_year_month":0,"month_change_pct":null,"ytd_current":15617,"ytd_prior":0,"ytd_change_pct":null},
-        "Ford/Ranger":          {"current_month":4264,"prior_year_month":6992,"month_change_pct":-39.0,"ytd_current":57005,"ytd_prior":94755,"ytd_change_pct":-39.8},
-        "Ford/Maverick":        {"current_month":5878,"prior_year_month":6030,"month_change_pct":-2.5,"ytd_current":74370,"ytd_prior":13258,"ytd_change_pct":460.9},
-        "Ford/E-Series":        {"current_month":3253,"prior_year_month":3806,"month_change_pct":-14.5,"ytd_current":32150,"ytd_prior":37122,"ytd_change_pct":-13.4},
-        "Ford/Transit":         {"current_month":10041,"prior_year_month":8521,"month_change_pct":17.8,"ytd_current":99382,"ytd_prior":99745,"ytd_change_pct":-0.4},
-        "Ford/E-Transit":       {"current_month":689,"prior_year_month":0,"month_change_pct":null,"ytd_current":6500,"ytd_prior":0,"ytd_change_pct":null},
-        "Ford/Transit Connect": {"current_month":1726,"prior_year_month":2371,"month_change_pct":-27.2,"ytd_current":25140,"ytd_prior":26112,"ytd_change_pct":-3.7},
-        "Ford/Heavy Trucks":    {"current_month":1411,"prior_year_month":1483,"month_change_pct":-4.9,"ytd_current":13539,"ytd_prior":14202,"ytd_change_pct":-4.7},
-        "Lincoln/MKZ":          {"current_month":0,"prior_year_month":3,"month_change_pct":-100.0,"ytd_current":0,"ytd_prior":1681,"ytd_change_pct":-100.0},
-        "Lincoln/Continental":  {"current_month":0,"prior_year_month":36,"month_change_pct":-100.0,"ytd_current":0,"ytd_prior":1460,"ytd_change_pct":-100.0},
-        "Lincoln/Corsair":      {"current_month":2537,"prior_year_month":1827,"month_change_pct":38.9,"ytd_current":27668,"ytd_prior":22790,"ytd_change_pct":21.4},
-        "Lincoln/Nautilus":     {"current_month":1481,"prior_year_month":1469,"month_change_pct":0.8,"ytd_current":20635,"ytd_prior":24443,"ytd_change_pct":-15.6},
-        "Lincoln/Aviator":      {"current_month":1653,"prior_year_month":1640,"month_change_pct":0.8,"ytd_current":21977,"ytd_prior":20924,"ytd_change_pct":5.0},
-        "Lincoln/Navigator":    {"current_month":1595,"prior_year_month":1220,"month_change_pct":30.7,"ytd_current":13206,"ytd_prior":15631,"ytd_change_pct":-15.5}
-      }
-    }
-  },
   "_meta": {
     "notes": {
-      "2022_production": "December 2022 production not available; Full Year totals reflect Jan-Nov only.",
-      "2022_retail_sales": "December 2022 U.S. retail sales with full-year YTD totals vs 2021.",
-      "2026_production": "Data covers Jan-Mar 2026 only; Full Year column shows YTD total.",
-      "data_source": "Ford Motor Company official monthly production and sales reports."
+      "2022": "December 2022 production not available; Full Year totals reflect Jan-Nov only.",
+      "2026": "Data covers Jan-Mar 2026 only; Full Year column shows YTD total.",
+      "source": "Ford Motor Company official monthly production reports."
     }
   }
 }

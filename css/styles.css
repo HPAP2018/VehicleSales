@@ -209,11 +209,202 @@ tr:hover td { background: var(--accent); }
   vertical-align: middle;
 }
 
-/* ── Responsive ── */
+/* ══════════════════════════════════════════════════════════════
+   TAB BAR
+   ══════════════════════════════════════════════════════════════ */
+.tab-bar {
+  display: flex;
+  background: #fff;
+  border-bottom: 2px solid var(--border);
+  padding: 0 1.5rem;
+  gap: .25rem;
+}
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .75rem 1.2rem;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: -2px;          /* overlap the nav border-bottom */
+  transition: color .15s, border-color .15s;
+}
+.tab-btn:hover  { color: var(--ford-blue); }
+.tab-btn.active { color: var(--ford-blue); border-bottom-color: var(--ford-blue); }
+
+/* ── Tab content visibility ── */
+.tab-content         { display: none; }
+.tab-content.active  { display: block; }
+
+/* ══════════════════════════════════════════════════════════════
+   PLANT MAP LAYOUT
+   ══════════════════════════════════════════════════════════════ */
+#tab-plantmap { height: calc(100vh - 112px); } /* viewport minus header + tab-bar */
+
+.map-layout {
+  display: flex;
+  height: 100%;
+}
+
+/* Leaflet map */
+#plant-map {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  z-index: 0;
+}
+
+/* ── Plant panel (right sidebar) ── */
+.plant-panel {
+  width: 340px;
+  flex-shrink: 0;
+  height: 100%;
+  overflow-y: auto;
+  background: #fff;
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.plant-panel-header {
+  padding: 1rem 1.25rem .75rem;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+}
+.plant-panel-header h2 { font-size: 1rem; font-weight: 700; color: var(--text); }
+.plant-panel-sub { font-size: .75rem; color: var(--muted); margin-top: .2rem; }
+
+.plant-panel-loading {
+  padding: 2rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+/* ── Legend ── */
+.map-legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: .6rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.legend-item { display: flex; align-items: center; gap: .35rem; font-size: .73rem; font-weight: 600; color: var(--muted); }
+.legend-dot  { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── Plant list ── */
+.plant-list { padding: .75rem .75rem 1.5rem; display: flex; flex-direction: column; gap: .5rem; }
+
+/* ── Plant card ── */
+.plant-card {
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: .75rem 1rem;
+  cursor: pointer;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+  background: #fff;
+}
+.plant-card:hover  { border-color: var(--ford-light); box-shadow: 0 2px 8px rgba(0,52,153,.1); }
+.plant-card.active { border-color: var(--ford-blue); background: var(--accent); box-shadow: 0 2px 12px rgba(0,52,153,.18); }
+
+.plant-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  margin-bottom: .55rem;
+}
+.plant-dot {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.plant-dot.usa    { background: var(--ford-blue); }
+.plant-dot.canada { background: #c8102e; }
+.plant-dot.mexico { background: #e67e22; }
+
+.plant-card-info { flex: 1; min-width: 0; }
+.plant-name { font-size: .86rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+.plant-city { font-size: .74rem; color: var(--muted); margin-top: .1rem; }
+
+.country-badge {
+  font-size: .65rem;
+  font-weight: 700;
+  padding: .15rem .5rem;
+  border-radius: 99px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.country-badge.usa    { background: #dbeafe; color: #1e40af; }
+.country-badge.canada { background: #fee2e2; color: #991b1b; }
+.country-badge.mexico { background: #fef3c7; color: #92400e; }
+
+/* ── Vehicle list inside card ── */
+.vehicle-tags { display: flex; flex-wrap: wrap; gap: .3rem; }
+.vehicle-tag {
+  font-size: .75rem;
+  padding: .2rem .55rem;
+  background: #f1f5fd;
+  border: 1px solid #c7d7f5;
+  border-radius: 6px;
+  color: var(--ford-blue);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.plant-card.active .vehicle-tag { background: #dbeafe; border-color: #93c5fd; }
+
+/* ── Custom Leaflet marker ── */
+.map-marker-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.map-marker {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.4);
+  transition: transform .15s;
+  cursor: pointer;
+}
+.map-marker.usa    { background: var(--ford-blue); }
+.map-marker.canada { background: #c8102e; }
+.map-marker.mexico { background: #e67e22; }
+.map-marker.active {
+  width: 20px; height: 20px;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--ford-blue), 0 2px 8px rgba(0,0,0,.4);
+}
+
+/* Leaflet popup tweak */
+.leaflet-popup-content-wrapper { border-radius: 8px; font-family: inherit; font-size: .84rem; }
+.leaflet-popup-content { margin: .6rem .9rem; }
+.popup-plant-name { font-weight: 700; color: var(--ford-blue); margin-bottom: .25rem; }
+.popup-city { font-size: .75rem; color: var(--muted); margin-bottom: .4rem; }
+.popup-vehicles { font-size: .78rem; line-height: 1.7; }
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════ */
 @media (max-width: 750px) {
   header { padding: 0 1rem; }
+  .tab-bar { padding: 0 .5rem; }
   .page-wrap { padding: 1rem .75rem 2rem; }
   .controls { padding: .9rem 1rem; }
   .view-toggle { margin-left: 0; }
   .chart-wrap { height: 240px; }
+
+  #tab-plantmap { height: auto; }
+  .map-layout   { flex-direction: column; }
+  #plant-map    { height: 50vh; }
+  .plant-panel  { width: 100%; height: auto; border-left: none; border-top: 1px solid var(--border); }
 }

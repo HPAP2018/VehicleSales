@@ -287,7 +287,13 @@ function initLeafletMap() {
     zoom: 2,
     minZoom: 2,
     maxZoom: 13,
-    zoomControl: true,
+    zoomControl:      false,
+    dragging:         false,
+    scrollWheelZoom:  false,
+    doubleClickZoom:  false,
+    touchZoom:        false,
+    boxZoom:          false,
+    keyboard:         false,
   });
 
   L.tileLayer(

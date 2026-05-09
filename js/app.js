@@ -4,8 +4,6 @@ const MONTHS     = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct",
 const MONTH_FULL = ["January","February","March","April","May","June",
                     "July","August","September","October","November","December"];
 
-// Years that only have partial data
-const PARTIAL_YEARS = { "2022": "Jan–Nov only", "2026": "Jan–Mar only" };
 
 const PALETTE = [
   "#003499","#e63946","#2a9d8f","#f4a261","#8338ec",
@@ -85,11 +83,10 @@ function buildYearPills() {
 
   years.forEach(y => {
     const btn = document.createElement("button");
-    btn.className = "year-pill" + (state.years.includes(y) ? " active" : "") +
-                    (PARTIAL_YEARS[y] ? " partial" : "");
+    btn.className = "year-pill" + (state.years.includes(y) ? " active" : "");
     btn.textContent = y;
     btn.dataset.year = y;
-    btn.title = PARTIAL_YEARS[y] ? `Partial data: ${PARTIAL_YEARS[y]}` : y;
+    btn.title = y;
     btn.addEventListener("click", () => toggleYear(y));
     container.appendChild(btn);
   });
@@ -143,15 +140,7 @@ function render() {
 
   const multiYear = state.years.length > 1;
 
-  // ── Notes banner ──────────────────────────────────────────────────────
-  const notedYears = state.years.filter(y => PARTIAL_YEARS[y]);
-  if (notedYears.length) {
-    const bar = el("div", "info-bar");
-    bar.innerHTML = `<span>⚠️</span><span>` +
-      notedYears.map(y => `<strong>${y}</strong>: ${PARTIAL_YEARS[y]}`).join(" · ") +
-      `  — Full Year column shows YTD total only.</span>`;
-    root.appendChild(bar);
-  }
+
 
   // ── Summary cards ─────────────────────────────────────────────────────
   root.appendChild(buildSummaryCards());
@@ -194,8 +183,7 @@ function buildSummaryCards() {
     state.years.forEach(y => {
       const total = vehicles.reduce((s, v) =>
         s + activeMths.reduce((ms, m) => ms + (DATA.production[y]?.[v]?.[m] ?? 0), 0), 0);
-      const sub = PARTIAL_YEARS[y] ? `(${PARTIAL_YEARS[y]})` :
-                  state.month === "all" ? "full year" : MONTH_FULL[MONTHS.indexOf(state.month)];
+      const sub = state.month === "all" ? "full year" : MONTH_FULL[MONTHS.indexOf(state.month)];
       cards.appendChild(summaryCard(y, total.toLocaleString(), sub));
     });
     // Top vehicle across all selected years combined

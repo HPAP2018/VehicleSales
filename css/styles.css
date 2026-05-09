@@ -264,8 +264,23 @@ tr:hover td { background: var(--accent); }
   background: #fff;
   z-index: 10;
 }
+.plant-panel-title-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
 .plant-panel-header h2 { font-size: 1rem; font-weight: 700; color: var(--text); }
 .plant-panel-sub { font-size: .75rem; color: var(--muted); margin-top: .2rem; }
+
+.reset-map-btn {
+  flex-shrink: 0;
+  padding: .28rem .7rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+.reset-map-btn:hover { border-color: var(--ford-light); color: var(--ford-light); }
 
 .plant-panel-loading {
   padding: 2rem;

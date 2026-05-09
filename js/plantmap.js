@@ -51,7 +51,7 @@ const PLANTS = [
     name: "Louisville Assembly Plant",
     city: "Louisville, KY", country: "USA", region: "americas",
     lat: 38.1450, lng: -85.7680,
-    vehicles: ["Ford Escape", "Lincoln Corsair"]
+    vehicles: ["(Idle — retooling)"]
   },
   {
     id: "michigan-assembly",
@@ -235,7 +235,10 @@ function buildPlantPanel() {
 
   panel.innerHTML = `
     <div class="plant-panel-header">
-      <h2>Ford Global Assembly Plants</h2>
+      <div class="plant-panel-title-row">
+        <h2>Ford Global Assembly Plants</h2>
+        <button class="reset-map-btn" id="reset-map-btn" title="Reset to world view">↺ Reset</button>
+      </div>
       <p class="plant-panel-sub">Source: ford.com/operations/locations/global-plants · Click a plant or marker</p>
     </div>
 
@@ -262,6 +265,8 @@ function buildPlantPanel() {
   panel.querySelectorAll(".plant-card").forEach(card => {
     card.addEventListener("click", () => selectPlant(card.dataset.id));
   });
+
+  document.getElementById("reset-map-btn").addEventListener("click", resetMap);
 }
 
 function plantCardHTML(p) {
@@ -333,6 +338,21 @@ function makeIcon(plant, active) {
     iconAnchor: active ? [11, 11] : [8, 8],
     popupAnchor: [0, -10],
   });
+}
+
+/* ── Reset map to world view ─────────────────────────────────────────────────── */
+function resetMap() {
+  if (_map) _map.setView([25, 15], 2, { animate: true });
+
+  // Deactivate any selected plant
+  if (_activeId) {
+    const prev = PLANTS.find(p => p.id === _activeId);
+    if (prev?._marker) prev._marker.setIcon(makeIcon(prev, false));
+    if (prev?._marker) prev._marker.closePopup();
+    const prevCard = document.querySelector(`.plant-card[data-id="${_activeId}"]`);
+    if (prevCard) prevCard.classList.remove("active");
+    _activeId = null;
+  }
 }
 
 /* ── Select a plant ──────────────────────────────────────────────────────────── */

@@ -292,13 +292,15 @@ function initLeafletMap() {
     zoom: 2,
     minZoom: 2,
     maxZoom: 13,
-    zoomControl:      false,
-    dragging:         false,
-    scrollWheelZoom:  false,
-    doubleClickZoom:  false,
-    touchZoom:        false,
-    boxZoom:          false,
-    keyboard:         false,
+    zoomControl:          false,
+    dragging:             false,
+    scrollWheelZoom:      false,
+    doubleClickZoom:      false,
+    touchZoom:            false,
+    boxZoom:              false,
+    keyboard:             false,
+    maxBounds:            [[-90, -180], [90, 180]],
+    maxBoundsViscosity:   1.0,
   });
 
   L.tileLayer(
@@ -309,6 +311,7 @@ function initLeafletMap() {
         '&copy; <a href="https://carto.com/">CARTO</a>',
       subdomains: "abcd",
       maxZoom: 19,
+      noWrap: true,
     }
   ).addTo(_map);
 

@@ -112,29 +112,29 @@
       "Stripped Chassis":           {"Jan":306,"Feb":317,"Mar":425,"Apr":401,"May":405,"Jun":377,"Jul":312,"Aug":748,"Sep":947,"Oct":1019,"Nov":807,"Dec":621,"Full Year":6685}
     },
     "2026": {
-      "Bronco Sport":               {"Jan":15264,"Feb":14077,"Mar":15640,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":44981},
-      "Maverick":                   {"Jan":16202,"Feb":14385,"Mar":16066,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":46653},
-      "Ford Mustang":               {"Jan":4383,"Feb":4545,"Mar":6709,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":15637},
-      "Mustang GTD":                {"Jan":42,"Feb":40,"Mar":44,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":126},
-      "Ranger":                     {"Jan":3716,"Feb":5767,"Mar":5720,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":15203},
-      "Bronco":                     {"Jan":10550,"Feb":15654,"Mar":15233,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":41437},
-      "Mustang Mach-E":             {"Jan":3826,"Feb":3046,"Mar":2507,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":9379},
-      "Ford F-Series (F-150)":      {"Jan":42841,"Feb":44740,"Mar":50097,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":137678},
-      "Ford F-Series (Super Duty)": {"Jan":15329,"Feb":31047,"Mar":28556,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":74932},
-      "Ford Expedition":            {"Jan":7061,"Feb":8643,"Mar":8778,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":24482},
-      "Lincoln Navigator":          {"Jan":2195,"Feb":2159,"Mar":2434,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":6788},
-      "Ford Explorer":              {"Jan":22532,"Feb":24760,"Mar":26843,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":74135},
-      "Lincoln Aviator":            {"Jan":2116,"Feb":2366,"Mar":2357,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":6839},
-      "Ford Transit":               {"Jan":10800,"Feb":12815,"Mar":17160,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":40775},
-      "Ford Econoline":             {"Jan":3198,"Feb":2767,"Mar":4438,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":10403},
-      "Medium Truck":               {"Jan":864,"Feb":640,"Mar":1050,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":2554},
-      "Stripped Chassis":           {"Jan":1139,"Feb":1547,"Mar":2831,"Apr":null,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":5517}
+      "Bronco Sport":               {"Jan":15264,"Feb":14077,"Mar":15640,"Apr":15054,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":60035},
+      "Maverick":                   {"Jan":16202,"Feb":14385,"Mar":16066,"Apr":15519,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":62172},
+      "Ford Mustang":               {"Jan":4383,"Feb":4545,"Mar":6709,"Apr":4169,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":19806},
+      "Mustang GTD":                {"Jan":42,"Feb":40,"Mar":44,"Apr":44,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":170},
+      "Ranger":                     {"Jan":3716,"Feb":5767,"Mar":5720,"Apr":5201,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":20404},
+      "Bronco":                     {"Jan":10550,"Feb":15654,"Mar":15233,"Apr":13968,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":55405},
+      "Mustang Mach-E":             {"Jan":3826,"Feb":3046,"Mar":2507,"Apr":3200,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":12579},
+      "Ford F-Series (F-150)":      {"Jan":42841,"Feb":44740,"Mar":50097,"Apr":47536,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":185214},
+      "Ford F-Series (Super Duty)": {"Jan":15329,"Feb":31047,"Mar":28556,"Apr":31764,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":106696},
+      "Ford Expedition":            {"Jan":7061,"Feb":8643,"Mar":8778,"Apr":8227,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":32709},
+      "Lincoln Navigator":          {"Jan":2195,"Feb":2159,"Mar":2434,"Apr":2466,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":9254},
+      "Ford Explorer":              {"Jan":22532,"Feb":24760,"Mar":26843,"Apr":24106,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":98241},
+      "Lincoln Aviator":            {"Jan":2116,"Feb":2366,"Mar":2357,"Apr":2318,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":9157},
+      "Ford Transit":               {"Jan":10800,"Feb":12815,"Mar":17160,"Apr":15207,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":55982},
+      "Ford Econoline":             {"Jan":3198,"Feb":2767,"Mar":4438,"Apr":3148,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":13551},
+      "Medium Truck":               {"Jan":864,"Feb":640,"Mar":1050,"Apr":978,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":3532},
+      "Stripped Chassis":           {"Jan":648,"Feb":746,"Mar":1252,"Apr":1246,"May":null,"Jun":null,"Jul":null,"Aug":null,"Sep":null,"Oct":null,"Nov":null,"Dec":null,"Full Year":3892}
     }
   },
   "_meta": {
     "notes": {
       "2022": "December 2022 production not available; Full Year totals reflect Jan-Nov only.",
-      "2026": "Data covers Jan-Mar 2026 only; Full Year column shows YTD total.",
+      "2026": "Data covers Jan-Apr 2026 only; Full Year column shows YTD total.",
       "source": "Ford Motor Company official monthly production reports."
     }
   }

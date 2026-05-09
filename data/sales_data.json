@@ -24,27 +24,27 @@
       "Stripped Chassis":           {"Jan":1112,"Feb":2384,"Mar":2860,"Apr":1131,"May":null,"Jun":1164,"Jul":2210,"Aug":2109,"Sep":1443,"Oct":1758,"Nov":1161,"Dec":1720,"Full Year":19052}
     },
     "2022": {
-      "Bronco Sport":               {"Jan":14636,"Feb":10260,"Mar":15052,"Apr":10556,"May":10156,"Jun":10375,"Jul":6382,"Aug":14878,"Sep":11761,"Oct":12570,"Nov":8662,"Dec":null,"Full Year":125288},
-      "Maverick":                   {"Jan":7842,"Feb":9184,"Mar":9778,"Apr":9179,"May":7550,"Jun":7564,"Jul":3578,"Aug":6384,"Sep":10094,"Oct":6131,"Nov":6614,"Dec":null,"Full Year":83898},
-      "Ford Mustang":               {"Jan":3960,"Feb":5159,"Mar":4152,"Apr":2509,"May":5726,"Jun":7896,"Jul":4596,"Aug":7028,"Sep":6294,"Oct":6281,"Nov":6020,"Dec":null,"Full Year":59621},
-      "Ford GT":                    {"Jan":18,"Feb":19,"Mar":23,"Apr":20,"May":21,"Jun":21,"Jul":20,"Aug":21,"Sep":17,"Oct":16,"Nov":19,"Dec":null,"Full Year":215},
-      "Ranger":                     {"Jan":6890,"Feb":5508,"Mar":8871,"Apr":6974,"May":4386,"Jun":4934,"Jul":1279,"Aug":5677,"Sep":5014,"Oct":3746,"Nov":3378,"Dec":null,"Full Year":56657},
-      "Bronco":                     {"Jan":12938,"Feb":8462,"Mar":14953,"Apr":12237,"May":11124,"Jun":12946,"Jul":3398,"Aug":15092,"Sep":13318,"Oct":11467,"Nov":12285,"Dec":null,"Full Year":128220},
-      "Mustang Mach-E":             {"Jan":6054,"Feb":4755,"Mar":7343,"Apr":4935,"May":6020,"Jun":4846,"Jul":7872,"Aug":4865,"Sep":8121,"Oct":8534,"Nov":8367,"Dec":null,"Full Year":71712},
-      "Ford F-Series (F-150)":      {"Jan":43386,"Feb":21402,"Mar":50737,"Apr":34891,"May":52076,"Jun":46311,"Jul":43754,"Aug":57817,"Sep":53583,"Oct":47306,"Nov":52722,"Dec":null,"Full Year":503985},
-      "Ford F-Series (Super Duty)": {"Jan":11088,"Feb":19558,"Mar":23848,"Apr":30003,"May":27329,"Jun":30807,"Jul":17530,"Aug":34686,"Sep":29906,"Oct":33048,"Nov":29444,"Dec":null,"Full Year":287247},
-      "Ford Expedition":            {"Jan":2042,"Feb":1241,"Mar":4476,"Apr":7195,"May":8921,"Jun":6202,"Jul":5008,"Aug":6860,"Sep":5443,"Oct":8647,"Nov":7969,"Dec":null,"Full Year":64004},
-      "Lincoln Navigator":          {"Jan":685,"Feb":388,"Mar":1244,"Apr":1857,"May":2308,"Jun":1634,"Jul":1275,"Aug":1782,"Sep":1355,"Oct":2109,"Nov":1968,"Dec":null,"Full Year":16605},
-      "Ford Explorer":              {"Jan":24739,"Feb":13273,"Mar":30197,"Apr":21986,"May":18301,"Jun":17366,"Jul":26845,"Aug":14510,"Sep":19066,"Oct":23320,"Nov":22400,"Dec":null,"Full Year":232003},
-      "Lincoln Aviator":            {"Jan":2297,"Feb":1426,"Mar":3472,"Apr":2739,"May":1870,"Jun":1963,"Jul":3394,"Aug":1564,"Sep":2114,"Oct":2303,"Nov":2289,"Dec":null,"Full Year":25431},
-      "Ford Transit":               {"Jan":9751,"Feb":6679,"Mar":17148,"Apr":13486,"May":11807,"Jun":6474,"Jul":6262,"Aug":13022,"Sep":10025,"Oct":12441,"Nov":12634,"Dec":null,"Full Year":119729},
-      "Ford Escape":                {"Jan":15822,"Feb":13857,"Mar":21862,"Apr":16491,"May":11750,"Jun":20068,"Jul":8664,"Aug":21154,"Sep":19665,"Oct":17437,"Nov":13853,"Dec":null,"Full Year":180623},
-      "Lincoln MKC / Corsair":      {"Jan":2627,"Feb":3193,"Mar":3263,"Apr":2970,"May":2128,"Jun":3985,"Jul":1625,"Aug":4001,"Sep":3940,"Oct":3783,"Nov":2825,"Dec":null,"Full Year":34340},
-      "Ford Edge":                  {"Jan":8283,"Feb":10433,"Mar":15647,"Apr":13228,"May":3044,"Jun":7484,"Jul":4869,"Aug":9688,"Sep":5282,"Oct":5140,"Nov":11263,"Dec":null,"Full Year":94361},
-      "Lincoln MKX / Nautilus":     {"Jan":1552,"Feb":2618,"Mar":4224,"Apr":3559,"May":742,"Jun":2727,"Jul":1182,"Aug":2426,"Sep":1554,"Oct":1087,"Nov":2698,"Dec":null,"Full Year":24369},
-      "Ford Econoline":             {"Jan":1485,"Feb":1828,"Mar":1883,"Apr":4771,"May":3436,"Jun":4091,"Jul":3020,"Aug":2503,"Sep":4443,"Oct":4215,"Nov":3494,"Dec":null,"Full Year":35169},
-      "Medium Truck":               {"Jan":526,"Feb":649,"Mar":763,"Apr":1764,"May":1864,"Jun":888,"Jul":970,"Aug":1867,"Sep":1684,"Oct":1582,"Nov":1546,"Dec":null,"Full Year":14103},
-      "Stripped Chassis":           {"Jan":1161,"Feb":746,"Mar":2320,"Apr":1878,"May":1731,"Jun":1875,"Jul":1878,"Aug":1162,"Sep":2146,"Oct":2544,"Nov":2057,"Dec":null,"Full Year":19498}
+      "Bronco Sport":               {"Jan":14636,"Feb":10260,"Mar":15052,"Apr":10556,"May":10156,"Jun":10375,"Jul":6382,"Aug":14878,"Sep":11761,"Oct":12570,"Nov":8662,"Dec":8800,"Full Year":134088},
+      "Maverick":                   {"Jan":7842,"Feb":9184,"Mar":9778,"Apr":9179,"May":7550,"Jun":7564,"Jul":3578,"Aug":6384,"Sep":10094,"Oct":6131,"Nov":6614,"Dec":7536,"Full Year":91434},
+      "Ford Mustang":               {"Jan":3960,"Feb":5159,"Mar":4152,"Apr":2509,"May":5726,"Jun":7896,"Jul":4596,"Aug":7028,"Sep":6294,"Oct":6281,"Nov":6020,"Dec":5859,"Full Year":65480},
+      "Ford GT":                    {"Jan":18,"Feb":19,"Mar":23,"Apr":20,"May":21,"Jun":21,"Jul":20,"Aug":21,"Sep":17,"Oct":16,"Nov":19,"Dec":13,"Full Year":228},
+      "Ranger":                     {"Jan":6890,"Feb":5508,"Mar":8871,"Apr":6974,"May":4386,"Jun":4934,"Jul":1279,"Aug":5677,"Sep":5014,"Oct":3746,"Nov":3378,"Dec":4093,"Full Year":60750},
+      "Bronco":                     {"Jan":12938,"Feb":8462,"Mar":14953,"Apr":12237,"May":11124,"Jun":12946,"Jul":3398,"Aug":15092,"Sep":13318,"Oct":11467,"Nov":12285,"Dec":10842,"Full Year":139062},
+      "Mustang Mach-E":             {"Jan":6054,"Feb":4755,"Mar":7343,"Apr":4935,"May":6020,"Jun":4846,"Jul":7872,"Aug":4865,"Sep":8121,"Oct":8534,"Nov":8367,"Dec":6247,"Full Year":77959},
+      "Ford F-Series (F-150)":      {"Jan":43386,"Feb":21402,"Mar":50737,"Apr":34891,"May":52076,"Jun":46311,"Jul":43754,"Aug":57817,"Sep":53583,"Oct":47306,"Nov":52722,"Dec":43662,"Full Year":547647},
+      "Ford F-Series (Super Duty)": {"Jan":11088,"Feb":19558,"Mar":23848,"Apr":30003,"May":27329,"Jun":30807,"Jul":17530,"Aug":34686,"Sep":29906,"Oct":33048,"Nov":29444,"Dec":24142,"Full Year":311389},
+      "Ford Expedition":            {"Jan":2042,"Feb":1241,"Mar":4476,"Apr":7195,"May":8921,"Jun":6202,"Jul":5008,"Aug":6860,"Sep":5443,"Oct":8647,"Nov":7969,"Dec":6098,"Full Year":70102},
+      "Lincoln Navigator":          {"Jan":685,"Feb":388,"Mar":1244,"Apr":1857,"May":2308,"Jun":1634,"Jul":1275,"Aug":1782,"Sep":1355,"Oct":2109,"Nov":1968,"Dec":1541,"Full Year":18146},
+      "Ford Explorer":              {"Jan":24739,"Feb":13273,"Mar":30197,"Apr":21986,"May":18301,"Jun":17366,"Jul":26845,"Aug":14510,"Sep":19066,"Oct":23320,"Nov":22400,"Dec":21367,"Full Year":253370},
+      "Lincoln Aviator":            {"Jan":2297,"Feb":1426,"Mar":3472,"Apr":2739,"May":1870,"Jun":1963,"Jul":3394,"Aug":1564,"Sep":2114,"Oct":2303,"Nov":2289,"Dec":1577,"Full Year":27008},
+      "Ford Transit":               {"Jan":9751,"Feb":6679,"Mar":17148,"Apr":13486,"May":11807,"Jun":6474,"Jul":6262,"Aug":13022,"Sep":10025,"Oct":12441,"Nov":12634,"Dec":10208,"Full Year":129937},
+      "Ford Escape":                {"Jan":15822,"Feb":13857,"Mar":21862,"Apr":16491,"May":11750,"Jun":20068,"Jul":8664,"Aug":21154,"Sep":19665,"Oct":17437,"Nov":13853,"Dec":7138,"Full Year":187761},
+      "Lincoln MKC / Corsair":      {"Jan":2627,"Feb":3193,"Mar":3263,"Apr":2970,"May":2128,"Jun":3985,"Jul":1625,"Aug":4001,"Sep":3940,"Oct":3783,"Nov":2825,"Dec":1439,"Full Year":35779},
+      "Ford Edge":                  {"Jan":8283,"Feb":10433,"Mar":15647,"Apr":13228,"May":3044,"Jun":7484,"Jul":4869,"Aug":9688,"Sep":5282,"Oct":5140,"Nov":11263,"Dec":9012,"Full Year":103373},
+      "Lincoln MKX / Nautilus":     {"Jan":1552,"Feb":2618,"Mar":4224,"Apr":3559,"May":742,"Jun":2727,"Jul":1182,"Aug":2426,"Sep":1554,"Oct":1087,"Nov":2698,"Dec":2227,"Full Year":26596},
+      "Ford Econoline":             {"Jan":1485,"Feb":1828,"Mar":1883,"Apr":4771,"May":3436,"Jun":4091,"Jul":3020,"Aug":2503,"Sep":4443,"Oct":4215,"Nov":3494,"Dec":3661,"Full Year":38830},
+      "Medium Truck":               {"Jan":526,"Feb":649,"Mar":763,"Apr":1764,"May":1864,"Jun":888,"Jul":970,"Aug":1867,"Sep":1684,"Oct":1582,"Nov":1546,"Dec":1506,"Full Year":15609},
+      "Stripped Chassis":           {"Jan":1161,"Feb":746,"Mar":2320,"Apr":1878,"May":1731,"Jun":1875,"Jul":1878,"Aug":1162,"Sep":2146,"Oct":2544,"Nov":2057,"Dec":1698,"Full Year":21196}
     },
     "2023": {
       "Bronco Sport":               {"Jan":13446,"Feb":12340,"Mar":15542,"Apr":10528,"May":15763,"Jun":15074,"Jul":12399,"Aug":9976,"Sep":15338,"Oct":16720,"Nov":10950,"Dec":12559,"Full Year":160635},
@@ -133,7 +133,6 @@
   },
   "_meta": {
     "notes": {
-      "2022": "December 2022 production not available; Full Year totals reflect Jan-Nov only.",
       "2026": "Data covers Jan-Apr 2026 only; Full Year column shows YTD total.",
       "source": "Ford Motor Company official monthly production reports."
     }

@@ -5,10 +5,24 @@ const MONTH_FULL = ["January","February","March","April","May","June",
                     "July","August","September","October","November","December"];
 
 
+/* Drive Data — brand-aligned chart palette */
 const PALETTE = [
-  "#003499","#e63946","#2a9d8f","#f4a261","#8338ec",
-  "#06d6a0","#e9c46a","#264653","#ff6b6b","#4cc9f0",
-  "#f77f00","#7209b7","#4361ee","#b5838d","#0066cc","#3a0ca3"
+  "#FF4A1C", // orange
+  "#1F3FE0", // cobalt
+  "#D8F048", // acid lime
+  "#FF7AA8", // rose
+  "#0F7A6E", // ocean
+  "#5B2E91", // plum
+  "#F5C843", // amber
+  "#2EBEB2", // teal
+  "#E53E6A", // raspberry
+  "#3E78FF", // sky cobalt
+  "#9DC22B", // moss
+  "#FF9560", // peach
+  "#7A5BFF", // violet
+  "#1AB394", // mint
+  "#FF3B3B", // red
+  "#0E3578", // ink-blue
 ];
 
 let DATA  = null;
@@ -316,62 +330,78 @@ function buildTableVehiclesXMonths(vehicles, activeMths) {
 }
 
 /* ── Chart drawing ───────────────────────────────────────────────────────── */
-function drawChart() {
+function clearChartArea() {
   if (chart) { chart.destroy(); chart = null; }
-  const ctx = document.getElementById("main-chart");
-  if (!ctx) return;
+  const wrap = document.querySelector("#chart-panel .chart-wrap");
+  if (!wrap) return null;
+  // Reset the wrap to a fresh canvas
+  wrap.innerHTML = '<canvas id="main-chart"></canvas>';
+  wrap.classList.remove("is-heatmap");
+  return wrap;
+}
+
+function drawChart() {
+  const wrap = clearChartArea();
+  if (!wrap) return;
 
   const multiYear  = state.years.length > 1;
   const vehicles   = getFilteredVehicles();
   const activeMths = state.month === "all" ? MONTHS : [state.month];
+  const ctx = document.getElementById("main-chart");
 
-  /* ─ Multi-year, single vehicle: lines=years, x=months ─ */
+  /* ─ Multi-year, single vehicle: GROUPED BAR (months × years) ─ */
   if (multiYear && state.vehicle !== "all") {
     const v = state.vehicle;
     chart = new Chart(ctx, {
-      type: "line",
+      type: "bar",
       data: {
         labels: activeMths,
         datasets: state.years.map((y, i) => ({
           label: y,
-          data: activeMths.map(m => DATA.production[y]?.[v]?.[m] ?? null),
+          data: activeMths.map(m => DATA.production[y]?.[v]?.[m] ?? 0),
+          backgroundColor: PALETTE[i % PALETTE.length] + "e6",
           borderColor: PALETTE[i % PALETTE.length],
-          backgroundColor: PALETTE[i % PALETTE.length] + "22",
-          fill: false, tension: .35, pointRadius: 4, spanGaps: true,
+          borderWidth: 1.5,
+          borderRadius: 4,
+          borderSkipped: false,
         })),
       },
-      options: chartOpts(`${v} — Monthly Production by Year`),
+      options: chartOpts(`${v} — Monthly Production, side-by-side by year`),
     });
     return;
   }
 
-  /* ─ Multi-year, all vehicles: lines=vehicles, x=years (Full Year or month total) ─ */
+  /* ─ Multi-year, all vehicles: STACKED BAR (years × top 8 vehicles) ─ */
   if (multiYear) {
-    // Top 8 vehicles by combined total across selected years
     const sorted = topVehicles(vehicles, 8);
     chart = new Chart(ctx, {
-      type: "line",
+      type: "bar",
       data: {
         labels: state.years,
         datasets: sorted.map((v, i) => ({
           label: shortName(v),
           data: state.years.map(y =>
-            activeMths.reduce((s, m) => s + (DATA.production[y]?.[v]?.[m] ?? 0), 0) || null
+            activeMths.reduce((s, m) => s + (DATA.production[y]?.[v]?.[m] ?? 0), 0)
           ),
+          backgroundColor: PALETTE[i % PALETTE.length] + "e6",
           borderColor: PALETTE[i % PALETTE.length],
-          backgroundColor: PALETTE[i % PALETTE.length] + "22",
-          fill: false, tension: .3, pointRadius: 5, spanGaps: true,
+          borderWidth: 1,
+          borderRadius: 2,
+          borderSkipped: false,
         })),
       },
-      options: chartOpts(
-        state.month === "all" ? "Annual Production Trend by Vehicle" :
-        `${MONTH_FULL[MONTHS.indexOf(state.month)]} Production Trend by Vehicle`
-      ),
+      options: {
+        ...chartOpts(
+          state.month === "all" ? "Annual Production Stack — by Vehicle (top 8)" :
+          `${MONTH_FULL[MONTHS.indexOf(state.month)]} Production Stack — by Vehicle (top 8)`
+        ),
+        scales: stackedScales(),
+      },
     });
     return;
   }
 
-  /* ─ Single year, single vehicle: bar by month ─ */
+  /* ─ Single year, single vehicle: VERTICAL BAR (months) ─ */
   if (state.vehicle !== "all") {
     const v     = state.vehicle;
     const yData = DATA.production[state.years[0]] || {};
@@ -382,9 +412,11 @@ function drawChart() {
         datasets: [{
           label: v,
           data: activeMths.map(m => yData[v]?.[m] ?? 0),
-          backgroundColor: PALETTE[0] + "cc",
+          backgroundColor: PALETTE[0] + "e6",
           borderColor: PALETTE[0],
-          borderWidth: 1.5, borderRadius: 4,
+          borderWidth: 1.5,
+          borderRadius: 4,
+          borderSkipped: false,
         }],
       },
       options: chartOpts(`${v} — ${state.years[0]} Monthly Production`),
@@ -392,7 +424,7 @@ function drawChart() {
     return;
   }
 
-  /* ─ Single year, all vehicles, single month: bar by vehicle ─ */
+  /* ─ Single year, all vehicles, single month: HORIZONTAL RANKED BAR ─ */
   if (state.month !== "all") {
     const m     = state.month;
     const yData = DATA.production[state.years[0]] || {};
@@ -404,43 +436,205 @@ function drawChart() {
         datasets: [{
           label: MONTH_FULL[MONTHS.indexOf(m)] + " " + state.years[0],
           data: sorted.map(v => yData[v]?.[m] ?? 0),
-          backgroundColor: sorted.map((_, i) => PALETTE[i % PALETTE.length] + "cc"),
+          backgroundColor: sorted.map((_, i) => PALETTE[i % PALETTE.length] + "e6"),
           borderColor: sorted.map((_, i) => PALETTE[i % PALETTE.length]),
-          borderWidth: 1.5, borderRadius: 4,
+          borderWidth: 1.5,
+          borderRadius: 4,
+          borderSkipped: false,
         }],
       },
-      options: chartOpts(`${MONTH_FULL[MONTHS.indexOf(m)]} ${state.years[0]} — All Vehicles`),
+      options: {
+        ...chartOpts(`${MONTH_FULL[MONTHS.indexOf(m)]} ${state.years[0]} — Vehicles ranked`),
+        indexAxis: "y",
+        plugins: {
+          ...chartOpts("").plugins,
+          legend: { display: false },
+          title: {
+            display: true,
+            text: `${MONTH_FULL[MONTHS.indexOf(m)]} ${state.years[0]} — Vehicles ranked`,
+            font: { family: '"Inter Tight", system-ui, sans-serif', size: 12, weight: "600" },
+            color: "rgba(243,235,219,.55)",
+            padding: { bottom: 12 },
+          },
+        },
+      },
     });
     return;
   }
 
-  /* ─ Single year, all vehicles, full year: lines=top vehicles, x=months ─ */
-  const sorted  = topVehicles(vehicles, 8);
-  const yData   = DATA.production[state.years[0]] || {};
-  chart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: MONTHS,
-      datasets: sorted.map((v, i) => ({
-        label: shortName(v),
-        data: MONTHS.map(m => yData[v]?.[m] ?? null),
-        borderColor: PALETTE[i % PALETTE.length],
-        backgroundColor: PALETTE[i % PALETTE.length] + "20",
-        fill: false, tension: .3, pointRadius: 3, spanGaps: true,
-      })),
+  /* ─ Single year, all vehicles, full year: HEATMAP (vehicle × month) ─ */
+  drawHeatmap(wrap, state.years[0], vehicles);
+}
+
+/* ── Stacked scales helper ─────────────────────────────────────────────────── */
+function stackedScales() {
+  const paperMute = "rgba(243,235,219,.55)";
+  const gridSoft  = "rgba(243,235,219,.10)";
+  const monoStack = '"JetBrains Mono", ui-monospace, monospace';
+  return {
+    x: {
+      stacked: true,
+      grid: { color: gridSoft, drawBorder: false },
+      border: { display: false },
+      ticks: { color: paperMute, font: { family: monoStack, size: 11 } },
     },
-    options: chartOpts(`${state.years[0]} — Monthly Production (Top 8 Models)`),
+    y: {
+      stacked: true,
+      beginAtZero: true,
+      grid: { color: gridSoft, drawBorder: false },
+      border: { display: false },
+      ticks: {
+        color: paperMute,
+        font: { family: monoStack, size: 10 },
+        callback: v => v >= 1000 ? (v / 1000).toFixed(0) + "k" : v,
+      },
+    },
+  };
+}
+
+/* ── Heatmap renderer (custom DOM, not Chart.js) ───────────────────────────── */
+function drawHeatmap(wrap, year, vehicles) {
+  wrap.innerHTML = "";
+  wrap.classList.add("is-heatmap");
+  const yData = DATA.production[year] || {};
+
+  // Sort vehicles by total descending so heaviest sit at top
+  const sorted = [...vehicles].sort((a, b) => {
+    const sa = MONTHS.reduce((s, m) => s + (yData[a]?.[m] ?? 0), 0);
+    const sb = MONTHS.reduce((s, m) => s + (yData[b]?.[m] ?? 0), 0);
+    return sb - sa;
   });
+
+  // Find max for color scaling
+  let maxVal = 0;
+  sorted.forEach(v => MONTHS.forEach(m => {
+    const x = yData[v]?.[m];
+    if (x != null && x > maxVal) maxVal = x;
+  }));
+  if (maxVal === 0) maxVal = 1;
+
+  const heatmap = document.createElement("div");
+  heatmap.className = "heatmap";
+
+  // header row
+  const header = document.createElement("div");
+  header.className = "heat-row heat-header";
+  header.appendChild(heatCell("heat-label", "Vehicle"));
+  MONTHS.forEach(m => header.appendChild(heatCell("heat-month", m)));
+  header.appendChild(heatCell("heat-total-label", "Σ"));
+  heatmap.appendChild(header);
+
+  // body rows
+  sorted.forEach(v => {
+    const row = document.createElement("div");
+    row.className = "heat-row";
+    row.appendChild(heatCell("heat-label", shortName(v)));
+    let rowTotal = 0;
+    MONTHS.forEach(m => {
+      const val = yData[v]?.[m];
+      const cell = document.createElement("div");
+      cell.className = "heat-cell";
+      if (val == null) {
+        cell.classList.add("heat-null");
+        cell.textContent = "—";
+      } else {
+        const t = Math.min(1, val / maxVal);
+        // Two-stop ramp: paper → cobalt → orange
+        cell.style.background = heatColor(t);
+        cell.style.color = t > 0.55 ? "#FFFBF1" : "#16130E";
+        cell.textContent = val >= 1000 ? (val/1000).toFixed(1) + "k" : val;
+        cell.title = `${v} · ${m} ${year}: ${val.toLocaleString()}`;
+        rowTotal += val;
+      }
+      row.appendChild(cell);
+    });
+    const totalCell = heatCell("heat-total", rowTotal >= 1000 ? (rowTotal/1000).toFixed(0) + "k" : rowTotal);
+    row.appendChild(totalCell);
+    heatmap.appendChild(row);
+  });
+
+  // caption + legend
+  const cap = document.createElement("div");
+  cap.className = "heat-caption";
+  cap.innerHTML = `
+    <span class="heat-cap-title">${year} · Production heatmap — vehicle rows × month columns. Darker = higher.</span>
+    <span class="heat-legend">
+      <span class="heat-legend-label">Low</span>
+      <span class="heat-legend-bar"></span>
+      <span class="heat-legend-label">${(maxVal/1000).toFixed(0)}k</span>
+    </span>
+  `;
+  wrap.appendChild(cap);
+  wrap.appendChild(heatmap);
+}
+
+function heatCell(cls, text) {
+  const el = document.createElement("div");
+  el.className = cls;
+  el.textContent = text;
+  return el;
+}
+
+/* Ramp: warm cream → cobalt → orange */
+function heatColor(t) {
+  // t in [0,1]
+  const stops = [
+    { p: 0.00, c: [243, 235, 219] }, // paper
+    { p: 0.30, c: [173, 198, 245] }, // pale cobalt
+    { p: 0.60, c: [ 31,  63, 224] }, // cobalt
+    { p: 0.85, c: [255,  74,  28] }, // orange
+    { p: 1.00, c: [120,  20,   0] }, // deep red
+  ];
+  for (let i = 1; i < stops.length; i++) {
+    if (t <= stops[i].p) {
+      const a = stops[i-1], b = stops[i];
+      const k = (t - a.p) / (b.p - a.p);
+      const r = Math.round(a.c[0] + (b.c[0] - a.c[0]) * k);
+      const g = Math.round(a.c[1] + (b.c[1] - a.c[1]) * k);
+      const bl= Math.round(a.c[2] + (b.c[2] - a.c[2]) * k);
+      return `rgb(${r},${g},${bl})`;
+    }
+  }
+  return "#16130E";
 }
 
 /* ── Shared chart options ────────────────────────────────────────────────── */
 function chartOpts(titleText) {
+  const paper      = "#F3EBDB";
+  const paperMute  = "rgba(243,235,219,.55)";
+  const gridSoft   = "rgba(243,235,219,.10)";
+  const fontStack  = '"Inter Tight", system-ui, sans-serif';
+  const monoStack  = '"JetBrains Mono", ui-monospace, monospace';
+
   return {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: { mode: "index", intersect: false },
     plugins: {
-      legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 11 } } },
+      legend: {
+        position: "bottom",
+        align: "start",
+        labels: {
+          boxWidth: 10,
+          boxHeight: 10,
+          padding: 14,
+          color: paper,
+          font: { family: fontStack, size: 11, weight: "600" },
+          usePointStyle: true,
+          pointStyle: "rectRounded",
+        },
+      },
       tooltip: {
+        backgroundColor: "#16130E",
+        borderColor: "#FF4A1C",
+        borderWidth: 1.5,
+        titleColor: "#D8F048",
+        titleFont: { family: fontStack, size: 12, weight: "700" },
+        bodyColor: paper,
+        bodyFont: { family: monoStack, size: 11 },
+        padding: 10,
+        cornerRadius: 6,
+        boxPadding: 6,
         callbacks: {
           label: c => ` ${c.dataset.label}: ${c.raw != null ? c.raw.toLocaleString() : "N/A"}`,
         },
@@ -448,17 +642,30 @@ function chartOpts(titleText) {
       title: {
         display: !!titleText,
         text: titleText,
-        font: { size: 12, weight: "600" },
-        color: "#6b7280",
-        padding: { bottom: 8 },
+        font: { family: fontStack, size: 12, weight: "600" },
+        color: paperMute,
+        padding: { bottom: 12 },
       },
     },
     scales: {
       y: {
         beginAtZero: true,
-        ticks: { callback: v => v >= 1000 ? (v / 1000).toFixed(0) + "k" : v },
+        grid:   { color: gridSoft, drawBorder: false },
+        border: { display: false },
+        ticks: {
+          color: paperMute,
+          font: { family: monoStack, size: 10 },
+          callback: v => v >= 1000 ? (v / 1000).toFixed(0) + "k" : v,
+        },
       },
-      x: { ticks: { font: { size: 11 } } },
+      x: {
+        grid:   { color: gridSoft, drawBorder: false },
+        border: { display: false },
+        ticks: {
+          color: paperMute,
+          font: { family: monoStack, size: 10 },
+        },
+      },
     },
   };
 }

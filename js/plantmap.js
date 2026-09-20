@@ -17,7 +17,7 @@ const PLANTS = [
   { id: "ohio-assembly",      name: "Ohio Assembly Plant",         city: "Avon Lake, OH", country: "USA",       region: "americas", lat: 41.504,  lng: -82.035,  vehicles: ["Ford E-Series", "Ford F-650/750", "Ford F-350/450/550 Chassis Cab"] },
 
   /* ── Canada ── */
-  { id: "oakville",           name: "Oakville Assembly",           city: "Oakville, Ontario", country: "Canada", region: "americas", lat: 43.4675, lng: -79.6877, vehicles: ["(Idle — retooling)"] },
+  { id: "oakville",           name: "Oakville Assembly",           city: "Oakville, Ontario", country: "Canada", region: "americas", lat: 43.4675, lng: -79.6877, vehicles: ["Ford Super Duty"] },
 
   /* ── Mexico ── */
   { id: "cuautitlan",         name: "Cuautitlan Assembly",         city: "Cuautitlán Izcalli, Mexico", country: "Mexico", region: "americas", lat: 19.647, lng: -99.202,  vehicles: ["Ford Mustang Mach-E"] },

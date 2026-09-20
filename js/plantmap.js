@@ -277,6 +277,7 @@ async function initSvgMap() {
     const xy = projection([p.lng, p.lat]);
     if (!xy) return;
     const [x, y] = xy;
+    p._x = x; p._y = y;
     const g = markerLayer.append("g")
       .attr("class", `atlas-marker atlas-marker-${p.region}`)
       .attr("transform", `translate(${x}, ${y})`)
@@ -295,6 +296,49 @@ async function initSvgMap() {
     p._svgNode = g;
   });
 
+  const plotted = PLANTS.filter(p => p._svgNode);
+  plotted.forEach(p => p._svgNode.insert("line", ":first-child")
+    .attr("class", "m-leader").attr("stroke", "#16130E").attr("opacity", 0));
+
+  // Plants only a few km apart (Louisville Assembly / Kentucky Truck, the
+  // Detroit cluster) land on the same pixel and bury each other. Relax any
+  // pair closer than MIN_SEP apart until every marker has its own hit area,
+  // and draw a leader line back to the true position. Recomputed per zoom,
+  // so displacement shrinks to nothing once markers separate on their own.
+  const MIN_SEP = 21;
+  function applyFan(k) {
+    const ramp = Math.max(0, Math.min(1, (k - 1.5) / 1.5));
+    const sep = MIN_SEP / k;
+    const pos = plotted.map((p, i) => ({ x: p._x, y: p._y, i }));
+    for (let pass = 0; pass < 80; pass++) {
+      let moved = false;
+      for (let a = 0; a < pos.length; a++) {
+        for (let b = a + 1; b < pos.length; b++) {
+          const A = pos[a], B = pos[b];
+          let dx = B.x - A.x, dy = B.y - A.y, d = Math.hypot(dx, dy);
+          if (d >= sep) continue;
+          if (d < 1e-6) {           // exactly coincident — nudge deterministically
+            dx = Math.cos(B.i); dy = Math.sin(B.i); d = 1;
+          }
+          const push = (sep - d) / 2 / d;
+          A.x -= dx * push; A.y -= dy * push;
+          B.x += dx * push; B.y += dy * push;
+          moved = true;
+        }
+      }
+      if (!moved) break;
+    }
+    plotted.forEach((p, i) => {
+      const fx = (pos[i].x - p._x) * ramp, fy = (pos[i].y - p._y) * ramp;
+      p._svgNode.attr("transform", `translate(${p._x + fx}, ${p._y + fy})`);
+      p._svgNode.select("line.m-leader")
+        .attr("x1", -fx).attr("y1", -fy).attr("x2", 0).attr("y2", 0)
+        .attr("stroke-width", 1 / k)
+        .attr("opacity", Math.hypot(fx, fy) * k > 3 ? ramp * 0.5 : 0);
+    });
+  }
+  applyFan(1);
+
   // Zoom behavior
   _zoom = d3.zoom()
     .scaleExtent([1, 10])
@@ -303,7 +347,8 @@ async function initSvgMap() {
       zoomLayer.attr("transform", event.transform);
       // Keep marker chrome readable at all zooms
       const k = event.transform.k;
-      const s = 1 / Math.pow(k, 0.55);
+      applyFan(k);
+      const s = 1 / k;
       markerLayer.selectAll(".atlas-marker > circle.m-halo").attr("r", 11 * s);
       markerLayer.selectAll(".atlas-marker > circle.m-ring").attr("r", 7 * s).attr("stroke-width", 1.5 * s);
       markerLayer.selectAll(".atlas-marker > circle.m-dot").attr("r", 4 * s);

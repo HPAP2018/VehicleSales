@@ -815,7 +815,7 @@ canvas { width: 100% !important; }
   align-items: center;
   gap: .6rem;
 }
-.table-wrap { overflow-x: auto; max-height: 600px; }
+.table-wrap { overflow-x: auto; }
 table {
   width: 100%;
   border-collapse: collapse;

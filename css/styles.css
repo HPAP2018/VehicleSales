@@ -560,6 +560,10 @@ body {
   background: var(--ink);
   color: var(--acid);
 }
+.view-toggle button:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
 
 /* ══════════════════════════════════════════════════════════════════════
    SUMMARY CARDS
@@ -660,138 +664,6 @@ body {
   position: relative;
   height: 380px;
 }
-.chart-wrap.is-heatmap {
-  height: auto;
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
-  gap: .9rem;
-}
-canvas { width: 100% !important; }
-
-/* ── Heatmap ── */
-.heat-caption {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  font-family: var(--font-mono);
-  font-size: .72rem;
-  color: rgba(243,235,219,.65);
-  letter-spacing: .04em;
-  flex-wrap: wrap;
-}
-.heat-cap-title { color: var(--paper); font-weight: 600; }
-.heat-legend {
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-  font-size: .68rem;
-}
-.heat-legend-label { font-family: var(--font-mono); color: rgba(243,235,219,.6); }
-.heat-legend-bar {
-  display: inline-block;
-  width: 120px;
-  height: 10px;
-  border-radius: 2px;
-  background: linear-gradient(90deg,
-    rgb(243,235,219) 0%,
-    rgb(173,198,245) 30%,
-    rgb(31,63,224) 60%,
-    rgb(255,74,28) 85%,
-    rgb(120,20,0) 100%);
-  border: 1px solid rgba(243,235,219,.25);
-}
-
-.heatmap {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  background: rgba(243,235,219,.06);
-  padding: 6px;
-  border-radius: 6px;
-  overflow-x: auto;
-}
-.heat-row {
-  display: grid;
-  grid-template-columns: 160px repeat(12, minmax(54px, 1fr)) 72px;
-  gap: 2px;
-  align-items: stretch;
-  min-width: 900px;
-}
-.heat-row.heat-header { position: sticky; top: 0; z-index: 2; }
-
-.heat-month, .heat-total-label {
-  font-family: var(--font-mono);
-  font-size: .68rem;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: rgba(243,235,219,.55);
-  padding: 6px 8px;
-  text-align: center;
-  background: transparent;
-}
-.heat-total-label { color: var(--acid); font-weight: 700; }
-
-.heat-label {
-  font-family: var(--font-display);
-  font-stretch: 90%;
-  font-size: .82rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--paper);
-  padding: 6px 10px;
-  display: flex;
-  align-items: center;
-  background: transparent;
-}
-.heat-header .heat-label {
-  font-family: var(--font-mono);
-  font-size: .68rem;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: rgba(243,235,219,.55);
-  font-weight: 600;
-}
-
-.heat-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: .72rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  padding: 8px 4px;
-  border-radius: 3px;
-  transition: transform .12s;
-  cursor: default;
-  min-height: 32px;
-}
-.heat-cell:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 0 2px var(--acid);
-  z-index: 3;
-  position: relative;
-}
-.heat-cell.heat-null {
-  background: rgba(243,235,219,.04);
-  color: rgba(243,235,219,.25);
-}
-.heat-total {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 6px 10px;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: .82rem;
-  color: var(--acid);
-  font-variant-numeric: tabular-nums;
-  background: rgba(216,240,72,.08);
-  border-radius: 3px;
-}
-
 /* ══════════════════════════════════════════════════════════════════════
    TABLE PANEL
    ══════════════════════════════════════════════════════════════════════ */

@@ -139,9 +139,18 @@ function populateVehicleSelect(search = "") {
   vSel.value = state.vehicle;
 }
 
+// A single year of every vehicle over the full year has no chart form — that
+// was the heatmap — so the table is the only view available.
+function hasChart() {
+  return state.years.length > 1 || state.vehicle !== "all" || state.month !== "all";
+}
+
 function setView(v) {
+  if (!hasChart()) v = "table";
   state.view = v;
-  document.getElementById("btn-chart").classList.toggle("active", v === "chart");
+  const btnChart = document.getElementById("btn-chart");
+  btnChart.classList.toggle("active", v === "chart");
+  btnChart.disabled = !hasChart();
   document.getElementById("btn-table").classList.toggle("active", v === "table");
   document.getElementById("chart-panel").style.display = v === "chart" ? "" : "none";
   document.getElementById("table-panel").style.display = v === "table" ? "" : "none";
@@ -336,11 +345,11 @@ function clearChartArea() {
   if (!wrap) return null;
   // Reset the wrap to a fresh canvas
   wrap.innerHTML = '<canvas id="main-chart"></canvas>';
-  wrap.classList.remove("is-heatmap");
   return wrap;
 }
 
 function drawChart() {
+  if (!hasChart()) return;
   const wrap = clearChartArea();
   if (!wrap) return;
 
@@ -462,8 +471,6 @@ function drawChart() {
     return;
   }
 
-  /* ─ Single year, all vehicles, full year: HEATMAP (vehicle × month) ─ */
-  drawHeatmap(wrap, state.years[0], vehicles);
 }
 
 /* ── Stacked scales helper ─────────────────────────────────────────────────── */
@@ -490,112 +497,6 @@ function stackedScales() {
       },
     },
   };
-}
-
-/* ── Heatmap renderer (custom DOM, not Chart.js) ───────────────────────────── */
-function drawHeatmap(wrap, year, vehicles) {
-  wrap.innerHTML = "";
-  wrap.classList.add("is-heatmap");
-  const yData = DATA.production[year] || {};
-
-  // Sort vehicles by total descending so heaviest sit at top
-  const sorted = [...vehicles].sort((a, b) => {
-    const sa = MONTHS.reduce((s, m) => s + (yData[a]?.[m] ?? 0), 0);
-    const sb = MONTHS.reduce((s, m) => s + (yData[b]?.[m] ?? 0), 0);
-    return sb - sa;
-  });
-
-  // Find max for color scaling
-  let maxVal = 0;
-  sorted.forEach(v => MONTHS.forEach(m => {
-    const x = yData[v]?.[m];
-    if (x != null && x > maxVal) maxVal = x;
-  }));
-  if (maxVal === 0) maxVal = 1;
-
-  const heatmap = document.createElement("div");
-  heatmap.className = "heatmap";
-
-  // header row
-  const header = document.createElement("div");
-  header.className = "heat-row heat-header";
-  header.appendChild(heatCell("heat-label", "Vehicle"));
-  MONTHS.forEach(m => header.appendChild(heatCell("heat-month", m)));
-  header.appendChild(heatCell("heat-total-label", "Σ"));
-  heatmap.appendChild(header);
-
-  // body rows
-  sorted.forEach(v => {
-    const row = document.createElement("div");
-    row.className = "heat-row";
-    row.appendChild(heatCell("heat-label", shortName(v)));
-    let rowTotal = 0;
-    MONTHS.forEach(m => {
-      const val = yData[v]?.[m];
-      const cell = document.createElement("div");
-      cell.className = "heat-cell";
-      if (val == null) {
-        cell.classList.add("heat-null");
-        cell.textContent = "—";
-      } else {
-        const t = Math.min(1, val / maxVal);
-        // Two-stop ramp: paper → cobalt → orange
-        cell.style.background = heatColor(t);
-        cell.style.color = t > 0.55 ? "#FFFBF1" : "#16130E";
-        cell.textContent = val >= 1000 ? (val/1000).toFixed(1) + "k" : val;
-        cell.title = `${v} · ${m} ${year}: ${val.toLocaleString()}`;
-        rowTotal += val;
-      }
-      row.appendChild(cell);
-    });
-    const totalCell = heatCell("heat-total", rowTotal >= 1000 ? (rowTotal/1000).toFixed(0) + "k" : rowTotal);
-    row.appendChild(totalCell);
-    heatmap.appendChild(row);
-  });
-
-  // caption + legend
-  const cap = document.createElement("div");
-  cap.className = "heat-caption";
-  cap.innerHTML = `
-    <span class="heat-cap-title">${year} · Production heatmap — vehicle rows × month columns. Darker = higher.</span>
-    <span class="heat-legend">
-      <span class="heat-legend-label">Low</span>
-      <span class="heat-legend-bar"></span>
-      <span class="heat-legend-label">${(maxVal/1000).toFixed(0)}k</span>
-    </span>
-  `;
-  wrap.appendChild(cap);
-  wrap.appendChild(heatmap);
-}
-
-function heatCell(cls, text) {
-  const el = document.createElement("div");
-  el.className = cls;
-  el.textContent = text;
-  return el;
-}
-
-/* Ramp: warm cream → cobalt → orange */
-function heatColor(t) {
-  // t in [0,1]
-  const stops = [
-    { p: 0.00, c: [243, 235, 219] }, // paper
-    { p: 0.30, c: [173, 198, 245] }, // pale cobalt
-    { p: 0.60, c: [ 31,  63, 224] }, // cobalt
-    { p: 0.85, c: [255,  74,  28] }, // orange
-    { p: 1.00, c: [120,  20,   0] }, // deep red
-  ];
-  for (let i = 1; i < stops.length; i++) {
-    if (t <= stops[i].p) {
-      const a = stops[i-1], b = stops[i];
-      const k = (t - a.p) / (b.p - a.p);
-      const r = Math.round(a.c[0] + (b.c[0] - a.c[0]) * k);
-      const g = Math.round(a.c[1] + (b.c[1] - a.c[1]) * k);
-      const bl= Math.round(a.c[2] + (b.c[2] - a.c[2]) * k);
-      return `rgb(${r},${g},${bl})`;
-    }
-  }
-  return "#16130E";
 }
 
 /* ── Shared chart options ────────────────────────────────────────────────── */

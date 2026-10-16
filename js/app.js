@@ -33,7 +33,7 @@ const state = {
   years:   ["2025"],   // array — one or more years selected
   vehicle: "all",
   month:   "all",      // "all" = Full Year
-  view:    "chart",
+  view:    "table",
 };
 
 /* ── Boot ───────────────────────────────────────────────────────────────── */
@@ -139,21 +139,14 @@ function populateVehicleSelect(search = "") {
   vSel.value = state.vehicle;
 }
 
-// A single year of every vehicle over the full year has no chart form — that
-// was the heatmap — so the table is the only view available.
-function hasChart() {
-  return state.years.length > 1 || state.vehicle !== "all" || state.month !== "all";
-}
-
 function setView(v) {
-  if (!hasChart()) v = "table";
   state.view = v;
-  const btnChart = document.getElementById("btn-chart");
-  btnChart.classList.toggle("active", v === "chart");
-  btnChart.disabled = !hasChart();
+  document.getElementById("btn-chart").classList.toggle("active", v === "chart");
   document.getElementById("btn-table").classList.toggle("active", v === "table");
   document.getElementById("chart-panel").style.display = v === "chart" ? "" : "none";
   document.getElementById("table-panel").style.display = v === "table" ? "" : "none";
+  // Chart.js cannot size a canvas inside a hidden panel, so draw once visible.
+  if (v === "chart") drawChart();
 }
 
 /* ── Render dispatcher ───────────────────────────────────────────────────── */
@@ -188,10 +181,8 @@ function render() {
   tablePanel.appendChild(tblWrap);
   root.appendChild(tablePanel);
 
-  setView(state.view);
-
-  // Draw chart after DOM is ready
-  requestAnimationFrame(() => drawChart());
+  // Draw chart after DOM is ready; setView draws it when the panel is visible
+  requestAnimationFrame(() => setView(state.view));
 }
 
 /* ── Summary cards ───────────────────────────────────────────────────────── */
@@ -349,7 +340,6 @@ function clearChartArea() {
 }
 
 function drawChart() {
-  if (!hasChart()) return;
   const wrap = clearChartArea();
   if (!wrap) return;
 
@@ -380,33 +370,9 @@ function drawChart() {
     return;
   }
 
-  /* ─ Multi-year, all vehicles: STACKED BAR (years × top 8 vehicles) ─ */
+  /* ─ All vehicles: GROUPED BAR (vehicles × one bar per year) ─ */
   if (multiYear) {
-    const sorted = topVehicles(vehicles, 8);
-    chart = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: state.years,
-        datasets: sorted.map((v, i) => ({
-          label: shortName(v),
-          data: state.years.map(y =>
-            activeMths.reduce((s, m) => s + (DATA.production[y]?.[v]?.[m] ?? 0), 0)
-          ),
-          backgroundColor: PALETTE[i % PALETTE.length] + "e6",
-          borderColor: PALETTE[i % PALETTE.length],
-          borderWidth: 1,
-          borderRadius: 2,
-          borderSkipped: false,
-        })),
-      },
-      options: {
-        ...chartOpts(
-          state.month === "all" ? "Annual Production Stack — by Vehicle (top 8)" :
-          `${MONTH_FULL[MONTHS.indexOf(state.month)]} Production Stack — by Vehicle (top 8)`
-        ),
-        scales: stackedScales(),
-      },
-    });
+    drawVehicleBars(ctx, topVehicles(vehicles, 8), activeMths, true);
     return;
   }
 
@@ -471,32 +437,34 @@ function drawChart() {
     return;
   }
 
+  /* ─ Single year, all vehicles, full year: GROUPED BAR (one bar per vehicle) ─ */
+  drawVehicleBars(ctx, topVehicles(vehicles, vehicles.length), activeMths, false);
 }
 
-/* ── Stacked scales helper ─────────────────────────────────────────────────── */
-function stackedScales() {
-  const paperMute = "rgba(243,235,219,.55)";
-  const gridSoft  = "rgba(243,235,219,.10)";
-  const monoStack = '"JetBrains Mono", ui-monospace, monospace';
-  return {
-    x: {
-      stacked: true,
-      grid: { color: gridSoft, drawBorder: false },
-      border: { display: false },
-      ticks: { color: paperMute, font: { family: monoStack, size: 11 } },
+/* Vehicles along the x-axis, one bar per selected year. */
+function drawVehicleBars(ctx, sorted, activeMths, capped) {
+  const period = state.month === "all" ? "Annual" : MONTH_FULL[MONTHS.indexOf(state.month)];
+  const scope  = state.years.length > 1 ? "side-by-side by year" : state.years[0];
+  chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: sorted.map(shortName),
+      datasets: state.years.map((y, i) => ({
+        label: y,
+        data: sorted.map(v =>
+          activeMths.reduce((s, m) => s + (DATA.production[y]?.[v]?.[m] ?? 0), 0)
+        ),
+        backgroundColor: PALETTE[i % PALETTE.length] + "e6",
+        borderColor: PALETTE[i % PALETTE.length],
+        borderWidth: 1.5,
+        borderRadius: 3,
+        borderSkipped: false,
+      })),
     },
-    y: {
-      stacked: true,
-      beginAtZero: true,
-      grid: { color: gridSoft, drawBorder: false },
-      border: { display: false },
-      ticks: {
-        color: paperMute,
-        font: { family: monoStack, size: 10 },
-        callback: v => v >= 1000 ? (v / 1000).toFixed(0) + "k" : v,
-      },
-    },
-  };
+    options: chartOpts(
+      `${period} Production by Vehicle — ${scope}${capped ? " (top 8)" : ""}`
+    ),
+  });
 }
 
 /* ── Shared chart options ────────────────────────────────────────────────── */
@@ -596,7 +564,10 @@ function topVehicles(vehicles, n) {
 }
 
 function shortName(name) {
-  return name.replace("Ford F-Series ", "").replace("Lincoln ", "").replace("Ford ", "");
+  return name
+    .replace(/^Ford F-Series \((.+)\)$/, "$1")
+    .replace("Lincoln ", "")
+    .replace("Ford ", "");
 }
 
 function buildTitle() {

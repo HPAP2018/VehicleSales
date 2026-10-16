@@ -32,9 +32,62 @@ let chart = null;
 const state = {
   years:   ["2025"],   // array — one or more years selected
   vehicle: "all",
-  month:   "all",      // "all" = Full Year
+  month:   "all",      // "all" = Full Year, "Q1".."Q4", or a month key
+  dataset: "production",  // "production" | "sales" | "both"
   view:    "table",
 };
+
+const QUARTERS = {
+  Q1: ["Jan","Feb","Mar"], Q2: ["Apr","May","Jun"],
+  Q3: ["Jul","Aug","Sep"], Q4: ["Oct","Nov","Dec"],
+};
+const DATASET_LABEL = { production: "Production", sales: "Sales" };
+
+/* Months covered by the current period selection */
+function activeMonths() {
+  if (state.month === "all") return MONTHS;
+  return QUARTERS[state.month] || [state.month];
+}
+
+function periodLabel() {
+  if (state.month === "all") return "Full Year";
+  if (QUARTERS[state.month]) return state.month;
+  return MONTH_FULL[MONTHS.indexOf(state.month)];
+}
+
+function activeDatasets() {
+  return state.dataset === "both" ? ["production", "sales"] : [state.dataset];
+}
+
+/* One cell; null when the month is not reported for that vehicle/year */
+function cell(ds, y, v, m) {
+  const x = DATA[ds]?.[y]?.[v]?.[m];
+  return x == null ? null : x;
+}
+
+/* Sum across months; null when nothing in the range is reported */
+function sumMonths(ds, y, v, mths) {
+  let total = 0, any = false;
+  mths.forEach(m => { const x = cell(ds, y, v, m); if (x != null) { total += x; any = true; } });
+  return any ? total : null;
+}
+
+/* Production writes "Ford Explorer" where sales writes "Explorer". Strip the
+   marque from both so the same vehicle carries one key in either dataset.
+   Genuinely different breakdowns (F-150 vs F-Series) stay separate. */
+function normaliseVehicleKeys() {
+  const ALIAS = { "Econoline": "E-Series", "MKC / Corsair": "Corsair" };
+  ["production", "sales"].forEach(ds => {
+    Object.keys(DATA[ds] || {}).forEach(y => {
+      const out = {};
+      Object.entries(DATA[ds][y]).forEach(([v, row]) => {
+        const k = shortName(v);
+        out[ALIAS[k] || k] = row;
+      });
+      DATA[ds][y] = out;
+    });
+  });
+}
 
 /* ── Boot ───────────────────────────────────────────────────────────────── */
 async function init() {
@@ -48,6 +101,7 @@ async function init() {
        </div>`;
     return;
   }
+  normaliseVehicleKeys();
   buildControls();
   render();
 
@@ -70,8 +124,20 @@ function buildControls() {
   const vSel = document.getElementById("sel-vehicle");
   vSel.addEventListener("change", () => { state.vehicle = vSel.value; render(); });
 
-  // Month
+  // Dataset
+  const dSel = document.getElementById("sel-dataset");
+  dSel.value = state.dataset;
+  dSel.addEventListener("change", () => {
+    state.dataset = dSel.value;
+    buildYearPills();
+    populateVehicleSelect(document.getElementById("inp-search").value.toLowerCase());
+    render();
+  });
+
+  // Period — quarters first, then individual months
   const mSel = document.getElementById("sel-month");
+  Object.keys(QUARTERS).forEach(q =>
+    mSel.appendChild(new Option(`${q} (${QUARTERS[q].join(", ")})`, q)));
   MONTHS.forEach((m, i) => mSel.appendChild(new Option(MONTH_FULL[i], m)));
   mSel.addEventListener("change", () => { state.month = mSel.value; render(); });
 
@@ -90,17 +156,20 @@ function buildControls() {
 function buildYearPills() {
   const container = document.getElementById("year-pills");
   container.innerHTML = "";
-  const years = Object.keys(DATA.production).sort();
+  const years = [...new Set(Object.keys(DATA.production).concat(Object.keys(DATA.sales || {})))].sort();
+  // Sales only starts in 2023, so some years have nothing for the current dataset
+  const has = y => activeDatasets().some(ds => DATA[ds]?.[y]);
 
-  // Default: select the latest full year
-  if (state.years.length === 0) state.years = [years[years.length - 1]];
+  state.years = state.years.filter(has);
+  if (state.years.length === 0) state.years = [years.filter(has).pop()];
 
   years.forEach(y => {
     const btn = document.createElement("button");
     btn.className = "year-pill" + (state.years.includes(y) ? " active" : "");
     btn.textContent = y;
     btn.dataset.year = y;
-    btn.title = y;
+    btn.disabled = !has(y);
+    btn.title = has(y) ? y : `${y} — no ${DATASET_LABEL[state.dataset] || "sales"} data`;
     btn.addEventListener("click", () => toggleYear(y));
     container.appendChild(btn);
   });
@@ -122,9 +191,10 @@ function toggleYear(year) {
 }
 
 function populateVehicleSelect(search = "") {
-  // Union of vehicles across all selected years
+  // Union of vehicles across all selected years and active datasets
   const all = new Set();
-  state.years.forEach(y => Object.keys(DATA.production[y] || {}).forEach(v => all.add(v)));
+  activeDatasets().forEach(ds =>
+    state.years.forEach(y => Object.keys(DATA[ds]?.[y] || {}).forEach(v => all.add(v))));
   const vehicles = [...all].sort().filter(v => !search || v.toLowerCase().includes(search));
 
   const vSel = document.getElementById("sel-vehicle");
@@ -174,7 +244,8 @@ function render() {
   // ── Table panel ───────────────────────────────────────────────────────
   const tablePanel = el("div", "table-panel"); tablePanel.id = "table-panel";
   const tblTitle = el("h2");
-  tblTitle.innerHTML = buildTitle() + `<span class="badge">Production</span>`;
+  tblTitle.innerHTML = buildTitle() +
+    `<span class="badge">${state.dataset === "both" ? "Compare" : DATASET_LABEL[state.dataset]}</span>`;
   tablePanel.appendChild(tblTitle);
   const tblWrap = el("div", "table-wrap");
   tblWrap.appendChild(buildTable());
@@ -188,83 +259,95 @@ function render() {
 /* ── Summary cards ───────────────────────────────────────────────────────── */
 function buildSummaryCards() {
   const cards = el("div", "summary-cards");
-  const activeMths  = state.month === "all" ? MONTHS : [state.month];
-  const vehicles    = getFilteredVehicles();
-  const multiYear   = state.years.length > 1;
+  const mths  = activeMonths();
+  const vehicles = getFilteredVehicles();
+  const dss   = activeDatasets();
+  const total = (ds, y) => vehicles.reduce((s, v) => s + (sumMonths(ds, y, v, mths) ?? 0), 0);
 
-  if (multiYear) {
-    // One card per year showing total units
-    state.years.forEach(y => {
-      const total = vehicles.reduce((s, v) =>
-        s + activeMths.reduce((ms, m) => ms + (DATA.production[y]?.[v]?.[m] ?? 0), 0), 0);
-      const sub = state.month === "all" ? "full year" : MONTH_FULL[MONTHS.indexOf(state.month)];
-      cards.appendChild(summaryCard(y, total.toLocaleString(), sub));
+  if (state.dataset === "both") {
+    dss.forEach(ds => {
+      const sum = state.years.reduce((s, y) => s + total(ds, y), 0);
+      cards.appendChild(summaryCard(DATASET_LABEL[ds], sum.toLocaleString(),
+        `${state.years.join(", ")} · ${periodLabel()}`));
     });
-    // Top vehicle across all selected years combined
+    const prod = state.years.reduce((s, y) => s + total("production", y), 0);
+    const sold = state.years.reduce((s, y) => s + total("sales", y), 0);
+    cards.appendChild(summaryCard("Difference", (prod - sold).toLocaleString(),
+      prod >= sold ? "built above sold" : "sold above built"));
+    if (sold > 0) cards.appendChild(summaryCard("Sell-through",
+      ((sold / prod) * 100).toFixed(1) + "%", "sales ÷ production"));
+    return cards;
+  }
+
+  const ds = dss[0];
+  if (state.years.length > 1) {
+    state.years.forEach(y =>
+      cards.appendChild(summaryCard(y, total(ds, y).toLocaleString(), periodLabel().toLowerCase())));
     const topV = vehicles.reduce((best, v) => {
-      const sum = state.years.reduce((s, y) =>
-        s + activeMths.reduce((ms, m) => ms + (DATA.production[y]?.[v]?.[m] ?? 0), 0), 0);
+      const sum = state.years.reduce((s, y) => s + (sumMonths(ds, y, v, mths) ?? 0), 0);
       return sum > best.sum ? { name: v, sum } : best;
     }, { name: "", sum: -1 });
-    if (topV.name) cards.appendChild(summaryCard("Top Model (all yrs)", shortName(topV.name), topV.sum.toLocaleString() + " units"));
+    if (topV.name) cards.appendChild(summaryCard("Top Model (all yrs)", shortName(topV.name),
+      topV.sum.toLocaleString() + " units"));
   } else {
-    const y     = state.years[0];
-    const yData = DATA.production[y] || {};
-    const total = vehicles.reduce((s, v) =>
-      s + activeMths.reduce((ms, m) => ms + (yData[v]?.[m] ?? 0), 0), 0);
-    const topV  = vehicles.reduce((best, v) => {
-      const sum = activeMths.reduce((s, m) => s + (yData[v]?.[m] ?? 0), 0);
+    const y = state.years[0];
+    const topV = vehicles.reduce((best, v) => {
+      const sum = sumMonths(ds, y, v, mths) ?? 0;
       return sum > best.sum ? { name: v, sum } : best;
     }, { name: "", sum: -1 });
-    cards.appendChild(summaryCard("Year", y, "Production data"));
-    cards.appendChild(summaryCard("Vehicles", vehicles.length.toString(), state.vehicle === "all" ? "all models" : state.vehicle));
-    cards.appendChild(summaryCard("Total Units", total.toLocaleString(),
-      state.month === "all" ? "full year" : MONTH_FULL[MONTHS.indexOf(state.month)]));
-    if (topV.name) cards.appendChild(summaryCard("Top Model", shortName(topV.name), topV.sum.toLocaleString() + " units"));
+    cards.appendChild(summaryCard("Year", y, DATASET_LABEL[ds] + " data"));
+    cards.appendChild(summaryCard("Vehicles", vehicles.length.toString(),
+      state.vehicle === "all" ? "all models" : state.vehicle));
+    cards.appendChild(summaryCard("Total Units", total(ds, y).toLocaleString(), periodLabel().toLowerCase()));
+    if (topV.name) cards.appendChild(summaryCard("Top Model", shortName(topV.name),
+      topV.sum.toLocaleString() + " units"));
   }
   return cards;
 }
 
 /* ── Table builder ───────────────────────────────────────────────────────── */
+/* With both datasets selected we stack one captioned table per dataset rather
+   than interleaving them, which keeps each table readable on its own. */
 function buildTable() {
-  const multiYear = state.years.length > 1;
-  const vehicles  = getFilteredVehicles();
-  const activeMths = state.month === "all" ? MONTHS : [state.month];
-
-  /* ── Multi-year, specific vehicle: rows=months, cols=years ── */
-  if (multiYear && state.vehicle !== "all") {
-    return buildTableMonthsXYears(vehicles[0] || state.vehicle);
-  }
-
-  /* ── Multi-year, all vehicles: rows=vehicles, cols=years (Full Year or chosen month) ── */
-  if (multiYear) {
-    return buildTableVehiclesXYears(vehicles, activeMths);
-  }
-
-  /* ── Single year: rows=vehicles, cols=months ── */
-  return buildTableVehiclesXMonths(vehicles, activeMths);
+  const frag = document.createDocumentFragment();
+  const dss  = activeDatasets();
+  dss.forEach(ds => {
+    if (dss.length > 1) {
+      const cap = el("div", "table-caption");
+      cap.textContent = DATASET_LABEL[ds];
+      frag.appendChild(cap);
+    }
+    frag.appendChild(buildTableFor(ds));
+  });
+  return frag;
 }
 
-function buildTableMonthsXYears(vehicle) {
+function buildTableFor(ds) {
+  const multiYear = state.years.length > 1;
+  const vehicles  = getFilteredVehicles();
+  const mths      = activeMonths();
+  if (multiYear && state.vehicle !== "all") return buildTableMonthsXYears(ds, vehicles[0] || state.vehicle);
+  if (multiYear)                            return buildTableVehiclesXYears(ds, vehicles, mths);
+  return buildTableVehiclesXMonths(ds, vehicles, mths);
+}
+
+function buildTableMonthsXYears(ds, vehicle) {
   const table = document.createElement("table");
-  // Header
   const tr = document.createElement("tr");
   addTh(tr, "Month", true);
   state.years.forEach(y => addTh(tr, y));
   table.appendChild(tr);
-  // Rows
   const totals = {};
-  MONTHS.forEach(m => {
+  activeMonths().forEach(m => {
     const row = document.createElement("tr");
     addTd(row, MONTH_FULL[MONTHS.indexOf(m)], true);
     state.years.forEach(y => {
-      const v = DATA.production[y]?.[vehicle]?.[m];
+      const v = cell(ds, y, vehicle, m);
       addTd(row, v != null ? v.toLocaleString() : "—", false, v == null);
       if (v != null) totals[y] = (totals[y] || 0) + v;
     });
     table.appendChild(row);
   });
-  // Total row
   const tRow = document.createElement("tr"); tRow.className = "total-row";
   addTd(tRow, "Total", true);
   state.years.forEach(y => addTd(tRow, (totals[y] || 0).toLocaleString()));
@@ -272,27 +355,23 @@ function buildTableMonthsXYears(vehicle) {
   return table;
 }
 
-function buildTableVehiclesXYears(vehicles, activeMths) {
-  const colLabel = state.month === "all" ? "Full Year" : MONTH_FULL[MONTHS.indexOf(state.month)];
+function buildTableVehiclesXYears(ds, vehicles, mths) {
   const table = document.createElement("table");
   const tr = document.createElement("tr");
   addTh(tr, "Vehicle", true);
-  state.years.forEach(y => addTh(tr, `${y} ${colLabel}`));
+  state.years.forEach(y => addTh(tr, `${y} ${periodLabel()}`));
   table.appendChild(tr);
   const totals = {};
   vehicles.forEach(v => {
     const row = document.createElement("tr");
     addTd(row, v, true);
     state.years.forEach(y => {
-      const val = activeMths.reduce((s, m) => s + (DATA.production[y]?.[v]?.[m] ?? 0), 0);
-      // If all months for this vehicle in this year are null, show —
-      const allNull = activeMths.every(m => DATA.production[y]?.[v]?.[m] == null);
-      addTd(row, allNull ? "—" : val.toLocaleString(), false, allNull);
-      if (!allNull) totals[y] = (totals[y] || 0) + val;
+      const val = sumMonths(ds, y, v, mths);
+      addTd(row, val == null ? "—" : val.toLocaleString(), false, val == null);
+      if (val != null) totals[y] = (totals[y] || 0) + val;
     });
     table.appendChild(row);
   });
-  // Total
   const tRow = document.createElement("tr"); tRow.className = "total-row";
   addTd(tRow, "Total", true);
   state.years.forEach(y => addTd(tRow, (totals[y] || 0).toLocaleString()));
@@ -300,30 +379,37 @@ function buildTableVehiclesXYears(vehicles, activeMths) {
   return table;
 }
 
-function buildTableVehiclesXMonths(vehicles, activeMths) {
+function buildTableVehiclesXMonths(ds, vehicles, mths) {
   const y     = state.years[0];
-  const yData = DATA.production[y] || {};
-  const cols  = state.month === "all" ? [...MONTHS, "Full Year"] : [state.month];
+  const total = state.month === "all" ? "Full Year" : state.month;
   const table = document.createElement("table");
   const tr    = document.createElement("tr");
   addTh(tr, "Vehicle", true);
-  cols.forEach(c => addTh(tr, c));
+  mths.forEach(c => addTh(tr, c));
+  const showTotal = mths.length > 1;
+  if (showTotal) addTh(tr, total);
   table.appendChild(tr);
   const totals = {};
   vehicles.forEach(v => {
     const row = document.createElement("tr");
     addTd(row, v, true);
-    cols.forEach(m => {
-      const val = yData[v]?.[m];
+    mths.forEach(m => {
+      const val = cell(ds, y, v, m);
       addTd(row, val != null ? val.toLocaleString() : "—", false, val == null);
       if (val != null) totals[m] = (totals[m] || 0) + val;
     });
+    if (showTotal) {
+      const rt = sumMonths(ds, y, v, mths);
+      addTd(row, rt == null ? "—" : rt.toLocaleString(), false, rt == null);
+      if (rt != null) totals[total] = (totals[total] || 0) + rt;
+    }
     table.appendChild(row);
   });
   if (vehicles.length > 1) {
     const tRow = document.createElement("tr"); tRow.className = "total-row";
     addTd(tRow, "Total", true);
-    cols.forEach(m => addTd(tRow, (totals[m] || 0).toLocaleString()));
+    mths.forEach(m => addTd(tRow, (totals[m] || 0).toLocaleString()));
+    if (showTotal) addTd(tRow, (totals[total] || 0).toLocaleString());
     table.appendChild(tRow);
   }
   return table;
@@ -343,128 +429,87 @@ function drawChart() {
   const wrap = clearChartArea();
   if (!wrap) return;
 
-  const multiYear  = state.years.length > 1;
-  const vehicles   = getFilteredVehicles();
-  const activeMths = state.month === "all" ? MONTHS : [state.month];
-  const ctx = document.getElementById("main-chart");
+  const vehicles = getFilteredVehicles();
+  const mths     = activeMonths();
+  const ctx      = document.getElementById("main-chart");
 
-  /* ─ Multi-year, single vehicle: GROUPED BAR (months × years) ─ */
-  if (multiYear && state.vehicle !== "all") {
-    const v = state.vehicle;
-    chart = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: activeMths,
-        datasets: state.years.map((y, i) => ({
-          label: y,
-          data: activeMths.map(m => DATA.production[y]?.[v]?.[m] ?? 0),
-          backgroundColor: PALETTE[i % PALETTE.length] + "e6",
-          borderColor: PALETTE[i % PALETTE.length],
-          borderWidth: 1.5,
-          borderRadius: 4,
-          borderSkipped: false,
-        })),
-      },
-      options: chartOpts(`${v} — Monthly Production, side-by-side by year`),
-    });
-    return;
-  }
-
-  /* ─ All vehicles: GROUPED BAR (vehicles × one bar per year) ─ */
-  if (multiYear) {
-    drawVehicleBars(ctx, topVehicles(vehicles, 8), activeMths, true);
-    return;
-  }
-
-  /* ─ Single year, single vehicle: VERTICAL BAR (months) ─ */
+  /* One vehicle: months along the x-axis */
   if (state.vehicle !== "all") {
-    const v     = state.vehicle;
-    const yData = DATA.production[state.years[0]] || {};
-    chart = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: activeMths,
-        datasets: [{
-          label: v,
-          data: activeMths.map(m => yData[v]?.[m] ?? 0),
-          backgroundColor: PALETTE[0] + "e6",
-          borderColor: PALETTE[0],
-          borderWidth: 1.5,
-          borderRadius: 4,
-          borderSkipped: false,
-        }],
-      },
-      options: chartOpts(`${v} — ${state.years[0]} Monthly Production`),
-    });
+    const v = state.vehicle;
+    buildMixedChart(ctx, mths, mths.map(m => m),
+      (ds, y) => mths.map(m => cell(ds, y, v, m)),
+      `${v} — ${periodLabel()} by month`);
     return;
   }
 
-  /* ─ Single year, all vehicles, single month: HORIZONTAL RANKED BAR ─ */
-  if (state.month !== "all") {
-    const m     = state.month;
-    const yData = DATA.production[state.years[0]] || {};
-    const sorted = [...vehicles].sort((a, b) => (yData[b]?.[m] ?? 0) - (yData[a]?.[m] ?? 0));
+  /* All vehicles, single year, single month: ranked horizontal bars */
+  if (state.years.length === 1 && state.dataset !== "both" && mths.length === 1) {
+    const ds = state.dataset, y = state.years[0], m = mths[0];
+    const sorted = [...vehicles].sort((a, b) => (cell(ds, y, b, m) ?? 0) - (cell(ds, y, a, m) ?? 0));
+    const title = `${MONTH_FULL[MONTHS.indexOf(m)]} ${y} — Vehicles ranked by ${DATASET_LABEL[ds].toLowerCase()}`;
     chart = new Chart(ctx, {
       type: "bar",
       data: {
         labels: sorted.map(shortName),
         datasets: [{
-          label: MONTH_FULL[MONTHS.indexOf(m)] + " " + state.years[0],
-          data: sorted.map(v => yData[v]?.[m] ?? 0),
+          label: `${MONTH_FULL[MONTHS.indexOf(m)]} ${y}`,
+          data: sorted.map(v => cell(ds, y, v, m) ?? 0),
           backgroundColor: sorted.map((_, i) => PALETTE[i % PALETTE.length] + "e6"),
           borderColor: sorted.map((_, i) => PALETTE[i % PALETTE.length]),
-          borderWidth: 1.5,
-          borderRadius: 4,
-          borderSkipped: false,
+          borderWidth: 1.5, borderRadius: 4, borderSkipped: false,
         }],
       },
       options: {
-        ...chartOpts(`${MONTH_FULL[MONTHS.indexOf(m)]} ${state.years[0]} — Vehicles ranked`),
+        ...chartOpts(title),
         indexAxis: "y",
-        plugins: {
-          ...chartOpts("").plugins,
-          legend: { display: false },
-          title: {
-            display: true,
-            text: `${MONTH_FULL[MONTHS.indexOf(m)]} ${state.years[0]} — Vehicles ranked`,
+        plugins: { ...chartOpts("").plugins, legend: { display: false },
+          title: { display: true, text: title,
             font: { family: '"Inter Tight", system-ui, sans-serif', size: 12, weight: "600" },
-            color: "rgba(243,235,219,.55)",
-            padding: { bottom: 12 },
-          },
-        },
+            color: "rgba(243,235,219,.55)", padding: { bottom: 12 } } },
       },
     });
     return;
   }
 
-  /* ─ Single year, all vehicles, full year: GROUPED BAR (one bar per vehicle) ─ */
-  drawVehicleBars(ctx, topVehicles(vehicles, vehicles.length), activeMths, false);
+  /* All vehicles: vehicles along the x-axis. Comparing both datasets doubles
+     the series, and their vehicle lists differ, so cap the axis there too. */
+  const capped = state.years.length > 1 || state.dataset === "both";
+  const sorted = topVehicles(vehicles, capped ? 10 : vehicles.length);
+  buildMixedChart(ctx, sorted, sorted.map(shortName),
+    (ds, y) => sorted.map(v => sumMonths(ds, y, v, mths)),
+    `${periodLabel()} by Vehicle${capped ? " (top 10)" : ""}`);
 }
 
-/* Vehicles along the x-axis, one bar per selected year. */
-function drawVehicleBars(ctx, sorted, activeMths, capped) {
-  const period = state.month === "all" ? "Annual" : MONTH_FULL[MONTHS.indexOf(state.month)];
-  const scope  = state.years.length > 1 ? "side-by-side by year" : state.years[0];
-  chart = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: sorted.map(shortName),
-      datasets: state.years.map((y, i) => ({
-        label: y,
-        data: sorted.map(v =>
-          activeMths.reduce((s, m) => s + (DATA.production[y]?.[v]?.[m] ?? 0), 0)
-        ),
-        backgroundColor: PALETTE[i % PALETTE.length] + "e6",
-        borderColor: PALETTE[i % PALETTE.length],
-        borderWidth: 1.5,
-        borderRadius: 3,
-        borderSkipped: false,
-      })),
-    },
-    options: chartOpts(
-      `${period} Production by Vehicle — ${scope}${capped ? " (top 8)" : ""}`
-    ),
+/* Production draws as bars; sales overlays as a line on the same axis, so the
+   two can be read against each other without doubling the bar count. */
+function buildMixedChart(ctx, keys, labels, series, title) {
+  const datasets = [];
+  activeDatasets().forEach(ds => {
+    state.years.forEach((y, i) => {
+      const many = state.years.length > 1;
+      // Sales takes a contrasting hue so the line never matches its bars
+      const colour = ds === "sales" && state.dataset === "both"
+        ? PALETTE[(i + 4) % PALETTE.length]
+        : PALETTE[i % PALETTE.length];
+      if (ds === "sales" && state.dataset === "both") {
+        datasets.push({
+          type: "line", label: `${y} sales`, data: series(ds, y),
+          borderColor: colour, backgroundColor: colour,
+          borderWidth: 2, borderDash: [5, 3], pointRadius: 3, pointStyle: "rectRot",
+          tension: .25, fill: false, spanGaps: false,
+        });
+      } else {
+        datasets.push({
+          type: "bar",
+          label: many || state.dataset === "both" ? `${y} ${DATASET_LABEL[ds].toLowerCase()}` : y,
+          data: series(ds, y),
+          backgroundColor: colour + "e6", borderColor: colour,
+          borderWidth: 1.5, borderRadius: 3, borderSkipped: false,
+        });
+      }
+    });
   });
+  chart = new Chart(ctx, { type: "bar", data: { labels, datasets }, options: chartOpts(title) });
 }
 
 /* ── Shared chart options ────────────────────────────────────────────────── */
@@ -543,7 +588,8 @@ function chartOpts(titleText) {
 function getFilteredVehicles() {
   const search = document.getElementById("inp-search")?.value.toLowerCase() || "";
   const all    = new Set();
-  state.years.forEach(y => Object.keys(DATA.production[y] || {}).forEach(v => all.add(v)));
+  activeDatasets().forEach(ds =>
+    state.years.forEach(y => Object.keys(DATA[ds]?.[y] || {}).forEach(v => all.add(v))));
   let vehicles = [...all].sort();
   if (search)                  vehicles = vehicles.filter(v => v.toLowerCase().includes(search));
   if (state.vehicle !== "all") vehicles = vehicles.filter(v => v === state.vehicle);
@@ -551,16 +597,10 @@ function getFilteredVehicles() {
 }
 
 function topVehicles(vehicles, n) {
-  const activeMths = state.month === "all" ? MONTHS : [state.month];
-  return [...vehicles]
-    .sort((a, b) => {
-      const sa = state.years.reduce((s, y) =>
-        s + activeMths.reduce((ms, m) => ms + (DATA.production[y]?.[a]?.[m] ?? 0), 0), 0);
-      const sb = state.years.reduce((s, y) =>
-        s + activeMths.reduce((ms, m) => ms + (DATA.production[y]?.[b]?.[m] ?? 0), 0), 0);
-      return sb - sa;
-    })
-    .slice(0, n);
+  const mths = activeMonths();
+  const tot = v => activeDatasets().reduce((s, ds) =>
+    s + state.years.reduce((ys, y) => ys + (sumMonths(ds, y, v, mths) ?? 0), 0), 0);
+  return [...vehicles].sort((a, b) => tot(b) - tot(a)).slice(0, n);
 }
 
 function shortName(name) {
@@ -573,8 +613,7 @@ function shortName(name) {
 function buildTitle() {
   const yLabel = state.years.join(", ");
   const vLabel = state.vehicle === "all" ? "All Vehicles" : state.vehicle;
-  const mLabel = state.month === "all" ? "Full Year" : MONTH_FULL[MONTHS.indexOf(state.month)];
-  return `${yLabel} · ${vLabel} · ${mLabel}`;
+  return `${yLabel} · ${vLabel} · ${periodLabel()}`;
 }
 
 function el(tag, cls) {

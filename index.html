@@ -163,11 +163,19 @@
       <!-- Row 2 -->
       <div class="ctrl-row2">
         <div class="ctrl-group">
+          <label for="sel-dataset">Data</label>
+          <select id="sel-dataset">
+            <option value="production">Production</option>
+            <option value="sales">Sales</option>
+            <option value="both">Both — compare</option>
+          </select>
+        </div>
+        <div class="ctrl-group">
           <label for="sel-vehicle">Vehicle</label>
           <select id="sel-vehicle"><option value="all">All Vehicles</option></select>
         </div>
         <div class="ctrl-group">
-          <label for="sel-month">Month</label>
+          <label for="sel-month">Period</label>
           <select id="sel-month"><option value="all">Full Year</option></select>
         </div>
         <div class="ctrl-group ctrl-search">

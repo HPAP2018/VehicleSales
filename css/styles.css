@@ -564,6 +564,23 @@ body {
   opacity: .35;
   cursor: not-allowed;
 }
+.year-pill:disabled {
+  opacity: .3;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+.table-caption {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-weight: 700;
+  color: var(--ink);
+  padding: 1rem 1.5rem .5rem;
+  border-top: 1.5px solid var(--ink);
+  background: var(--paper-deep);
+}
+.table-caption:first-child { border-top: none; }
 
 /* ══════════════════════════════════════════════════════════════════════
    SUMMARY CARDS

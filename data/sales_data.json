@@ -1534,12 +1534,12 @@
         "May": 16182,
         "Jun": 16818,
         "Jul": 14625,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 12332,
+        "Sep": 15762,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 107660
+        "Full Year": 135754
       },
       "Maverick": {
         "Jan": 16202,
@@ -1549,12 +1549,12 @@
         "May": 16704,
         "Jun": 17445,
         "Jul": 13920,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 12266,
+        "Sep": 10985,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 110241
+        "Full Year": 133492
       },
       "Ford Mustang": {
         "Jan": 4383,
@@ -1564,12 +1564,12 @@
         "May": 3688,
         "Jun": 5848,
         "Jul": 4213,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 5391,
+        "Sep": 5823,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 33555
+        "Full Year": 44769
       },
       "Mustang GTD": {
         "Jan": 42,
@@ -1579,12 +1579,12 @@
         "May": 49,
         "Jun": 58,
         "Jul": 57,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 50,
+        "Sep": 54,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 334
+        "Full Year": 438
       },
       "Ranger": {
         "Jan": 3716,
@@ -1594,12 +1594,12 @@
         "May": 6099,
         "Jun": 7970,
         "Jul": 6921,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 8597,
+        "Sep": 8559,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 41394
+        "Full Year": 58550
       },
       "Bronco": {
         "Jan": 10550,
@@ -1609,12 +1609,12 @@
         "May": 15824,
         "Jun": 14289,
         "Jul": 11788,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 15025,
+        "Sep": 14735,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 97306
+        "Full Year": 127066
       },
       "Mustang Mach-E": {
         "Jan": 3826,
@@ -1624,12 +1624,12 @@
         "May": 3145,
         "Jun": 3452,
         "Jul": 2626,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 3172,
+        "Sep": 1761,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 21802
+        "Full Year": 26735
       },
       "Ford F-Series (F-150)": {
         "Jan": 42841,
@@ -1639,12 +1639,12 @@
         "May": 52153,
         "Jun": 53807,
         "Jul": 56152,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 57504,
+        "Sep": 42846,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 347326
+        "Full Year": 447676
       },
       "Ford F-Series (Super Duty)": {
         "Jan": 15329,
@@ -1654,12 +1654,12 @@
         "May": 33708,
         "Jun": 35331,
         "Jul": 35872,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 39263,
+        "Sep": 35140,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 211607
+        "Full Year": 286010
       },
       "Ford Expedition": {
         "Jan": 7061,
@@ -1669,12 +1669,12 @@
         "May": 8602,
         "Jun": 8262,
         "Jul": 7412,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 7547,
+        "Sep": 8597,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 56985
+        "Full Year": 73129
       },
       "Lincoln Navigator": {
         "Jan": 2195,
@@ -1684,12 +1684,12 @@
         "May": 2538,
         "Jun": 2266,
         "Jul": 2353,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 1578,
+        "Sep": 1896,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 16411
+        "Full Year": 19885
       },
       "Ford Explorer": {
         "Jan": 22532,
@@ -1699,12 +1699,12 @@
         "May": 25842,
         "Jun": 22678,
         "Jul": 21571,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 24969,
+        "Sep": 25656,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 168332
+        "Full Year": 218957
       },
       "Lincoln Aviator": {
         "Jan": 2116,
@@ -1714,12 +1714,12 @@
         "May": 2227,
         "Jun": 2058,
         "Jul": 2469,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 3068,
+        "Sep": 3153,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 15911
+        "Full Year": 22132
       },
       "Ford Transit": {
         "Jan": 10800,
@@ -1729,12 +1729,12 @@
         "May": 16426,
         "Jun": 15614,
         "Jul": 11376,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 17474,
+        "Sep": 16672,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 99398
+        "Full Year": 133544
       },
       "Ford Econoline": {
         "Jan": 3198,
@@ -1744,12 +1744,12 @@
         "May": 3153,
         "Jun": 4350,
         "Jul": 3914,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 3289,
+        "Sep": 2768,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 24968
+        "Full Year": 31025
       },
       "Medium Truck": {
         "Jan": 864,
@@ -1759,12 +1759,12 @@
         "May": 999,
         "Jun": 994,
         "Jul": 973,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 938,
+        "Sep": 1259,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 6498
+        "Full Year": 8695
       },
       "Stripped Chassis": {
         "Jan": 648,
@@ -1774,18 +1774,18 @@
         "May": 1181,
         "Jun": 1135,
         "Jul": 1217,
-        "Aug": null,
-        "Sep": null,
+        "Aug": 1281,
+        "Sep": 1186,
         "Oct": null,
         "Nov": null,
         "Dec": null,
-        "Full Year": 7425
+        "Full Year": 9892
       }
     }
   },
   "_meta": {
     "notes": {
-      "2026": "Data covers Jan-Jul 2026 only; Full Year column shows YTD total.",
+      "2026": "Data covers Jan-Sep 2026; Full Year column shows YTD total.",
       "source": "Ford Motor Company official monthly production reports.",
       "sales": "U.S. sales by nameplate, Jan 2023 onward. Quarter-closing months (Mar/Jun/Sep/Dec) are not published standalone by Ford and are derived from the quarterly release's year-to-date column.",
       "sales_2026": "Sales data covers Jan-Sep 2026; Full Year column shows YTD total."

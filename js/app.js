@@ -76,7 +76,13 @@ function sumMonths(ds, y, v, mths) {
    marque from both so the same vehicle carries one key in either dataset.
    Genuinely different breakdowns (F-150 vs F-Series) stay separate. */
 function normaliseVehicleKeys() {
-  const ALIAS = { "Econoline": "E-Series", "MKC / Corsair": "Corsair" };
+  const ALIAS = {
+    "Econoline": "E-Series",
+    "MKC / Corsair": "Corsair",
+    // F-650/750: production calls these Medium Truck, sales calls them Heavy Trucks
+    "Medium Truck": "Medium/Heavy Trucks",
+    "Heavy Trucks": "Medium/Heavy Trucks",
+  };
   ["production", "sales"].forEach(ds => {
     Object.keys(DATA[ds] || {}).forEach(y => {
       const out = {};

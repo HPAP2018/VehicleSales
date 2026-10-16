@@ -42,6 +42,7 @@ const QUARTERS = {
   Q3: ["Jul","Aug","Sep"], Q4: ["Oct","Nov","Dec"],
 };
 const DATASET_LABEL = { production: "Production", sales: "Sales" };
+const F_SERIES_COMBINED = "F-Series";
 
 /* Months covered by the current period selection */
 function activeMonths() {
@@ -93,6 +94,28 @@ function normaliseVehicleKeys() {
       DATA[ds][y] = out;
     });
   });
+  // Sales reports one F-Series line, production splits it. Pre-compute the
+  // combined row so compare mode has something to put against the sales line.
+  Object.keys(DATA.production || {}).forEach(y => {
+    const yr = DATA.production[y];
+    if (!yr["F-150"] || !yr["Super Duty"]) return;
+    const row = {};
+    [...MONTHS, "Full Year"].forEach(m => {
+      const a = yr["F-150"][m], b = yr["Super Duty"][m];
+      row[m] = a == null && b == null ? null : (a ?? 0) + (b ?? 0);
+    });
+    yr[F_SERIES_COMBINED] = row;
+  });
+}
+
+/* Which vehicles a dataset exposes: production shows its own F-150 and Super
+   Duty split on its own, but the combined F-Series row when comparing. */
+function vehicleKeys(ds, y) {
+  const keys = Object.keys(DATA[ds]?.[y] || {});
+  if (ds !== "production") return keys;
+  return state.dataset === "both"
+    ? keys.filter(v => v !== "F-150" && v !== "Super Duty")
+    : keys.filter(v => v !== F_SERIES_COMBINED);
 }
 
 /* ── Boot ───────────────────────────────────────────────────────────────── */
@@ -200,7 +223,7 @@ function populateVehicleSelect(search = "") {
   // Union of vehicles across all selected years and active datasets
   const all = new Set();
   activeDatasets().forEach(ds =>
-    state.years.forEach(y => Object.keys(DATA[ds]?.[y] || {}).forEach(v => all.add(v))));
+    state.years.forEach(y => vehicleKeys(ds, y).forEach(v => all.add(v))));
   const vehicles = [...all].sort().filter(v => !search || v.toLowerCase().includes(search));
 
   const vSel = document.getElementById("sel-vehicle");
@@ -595,7 +618,7 @@ function getFilteredVehicles() {
   const search = document.getElementById("inp-search")?.value.toLowerCase() || "";
   const all    = new Set();
   activeDatasets().forEach(ds =>
-    state.years.forEach(y => Object.keys(DATA[ds]?.[y] || {}).forEach(v => all.add(v))));
+    state.years.forEach(y => vehicleKeys(ds, y).forEach(v => all.add(v))));
   let vehicles = [...all].sort();
   if (search)                  vehicles = vehicles.filter(v => v.toLowerCase().includes(search));
   if (state.vehicle !== "all") vehicles = vehicles.filter(v => v === state.vehicle);

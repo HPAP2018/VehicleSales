@@ -131,6 +131,7 @@ async function init() {
     return;
   }
   normaliseVehicleKeys();
+  showLastUpdated();
   buildControls();
   render();
 
@@ -145,6 +146,14 @@ async function init() {
   });
 }
 
+function showLastUpdated() {
+  const el = document.getElementById("meta-updated");
+  const iso = DATA._meta?.lastUpdated;
+  if (!el || !iso) return;
+  const [y, m, d] = iso.split("-").map(Number);
+  el.textContent = `${d} ${MONTH_FULL[m - 1].slice(0, 3)} ${y}`;
+}
+
 /* ── Controls setup ──────────────────────────────────────────────────────── */
 function buildControls() {
   buildYearPills();
@@ -153,14 +162,17 @@ function buildControls() {
   const vSel = document.getElementById("sel-vehicle");
   vSel.addEventListener("change", () => { state.vehicle = vSel.value; render(); });
 
-  // Dataset
-  const dSel = document.getElementById("sel-dataset");
-  dSel.value = state.dataset;
-  dSel.addEventListener("change", () => {
-    state.dataset = dSel.value;
-    buildYearPills();
-    populateVehicleSelect(document.getElementById("inp-search").value.toLowerCase());
-    render();
+  // Dataset — three segmented buttons rather than a dropdown
+  document.querySelectorAll("#dataset-tabs button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.ds === state.dataset);
+    btn.addEventListener("click", () => {
+      state.dataset = btn.dataset.ds;
+      document.querySelectorAll("#dataset-tabs button").forEach(b2 =>
+        b2.classList.toggle("active", b2 === btn));
+      buildYearPills();
+      populateVehicleSelect(document.getElementById("inp-search").value.toLowerCase());
+      render();
+    });
   });
 
   // Period — quarters first, then individual months
@@ -494,7 +506,7 @@ function drawChart() {
         plugins: { ...chartOpts("").plugins, legend: { display: false },
           title: { display: true, text: title,
             font: { family: '"Inter Tight", system-ui, sans-serif', size: 12, weight: "600" },
-            color: "rgba(243,235,219,.55)", padding: { bottom: 12 } } },
+            color: "rgba(22,19,14,.62)", padding: { bottom: 12 } } },
       },
     });
     return;
@@ -543,9 +555,10 @@ function buildMixedChart(ctx, keys, labels, series, title) {
 
 /* ── Shared chart options ────────────────────────────────────────────────── */
 function chartOpts(titleText) {
-  const paper      = "#F3EBDB";
-  const paperMute  = "rgba(243,235,219,.55)";
-  const gridSoft   = "rgba(243,235,219,.10)";
+  // Panel is light, so axis text and gridlines are ink rather than paper
+  const paper      = "#16130E";
+  const paperMute  = "rgba(22,19,14,.62)";
+  const gridSoft   = "rgba(22,19,14,.10)";
   const fontStack  = '"Inter Tight", system-ui, sans-serif';
   const monoStack  = '"JetBrains Mono", ui-monospace, monospace';
 

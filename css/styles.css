@@ -560,6 +560,32 @@ body {
   background: var(--ink);
   color: var(--acid);
 }
+.dataset-tabs {
+  display: inline-flex;
+  gap: 2px;
+  background: var(--paper-deep);
+  border: 1.5px solid var(--ink);
+  border-radius: 7px;
+  padding: 3px;
+}
+.dataset-tabs button {
+  padding: .42rem .85rem;
+  border: none;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: .82rem;
+  font-weight: 600;
+  border-radius: 5px;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.dataset-tabs button:hover { color: var(--ink); }
+.dataset-tabs button.active {
+  background: var(--ink);
+  color: var(--acid);
+}
 .view-toggle button:disabled {
   opacity: .35;
   cursor: not-allowed;
@@ -647,8 +673,8 @@ body {
    CHART PANEL  — dark "data lab" treatment
    ══════════════════════════════════════════════════════════════════════ */
 .chart-panel {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--surface);
+  color: var(--ink);
   border: 1.5px solid var(--ink);
   border-radius: 14px;
   padding: 1.5rem 1.75rem 1.75rem;
@@ -663,7 +689,7 @@ body {
   bottom: .75rem; right: 1.25rem;
   font-family: var(--font-mono);
   font-size: .65rem;
-  color: rgba(243,235,219,.35);
+  color: var(--ink-mute);
   letter-spacing: .12em;
 }
 .chart-panel h2 {
@@ -672,10 +698,10 @@ body {
   font-weight: 700;
   font-stretch: 90%;
   letter-spacing: -0.02em;
-  color: var(--paper);
+  color: var(--ink);
   margin-bottom: 1.25rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(243,235,219,.12);
+  border-bottom: 1px solid var(--paper-edge);
 }
 .chart-wrap {
   position: relative;

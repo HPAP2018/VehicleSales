@@ -33,14 +33,14 @@
       </span>
       <span class="brand-text">
         <span class="brand-name">Drive&nbsp;Data</span>
-        <span class="brand-sub">Production Atlas · Vol. VI</span>
+        <span class="brand-sub">Production Atlas</span>
       </span>
     </a>
 
     <div class="masthead-meta">
       <div class="meta-row">
-        <span class="meta-label">Issue</span>
-        <span class="meta-value">№ 26 · Jul 2026</span>
+        <span class="meta-label">Last Updated</span>
+        <span class="meta-value" id="meta-updated">—</span>
       </div>
       <div class="meta-row">
         <span class="meta-label">Coverage</span>
@@ -93,7 +93,7 @@
         <rect x="2" y="14" width="4" height="8"/><rect x="9" y="9" width="4" height="13"/>
         <rect x="16" y="4" width="4" height="18"/>
       </svg>
-      Production Explorer
+      Ford Sales &amp; Production
     </button>
     <button class="tab-btn" data-tab="plantmap">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -103,12 +103,11 @@
       Plant Atlas
     </button>
     <span class="tab-spacer"></span>
-    <span class="tab-aside">Press <kbd>?</kbd> for tips · Updated daily</span>
   </div>
 </nav>
 
 <!-- ══════════════════════════════════════════════════════════════════════
-     TAB 1 — Production Explorer
+     TAB 1 — Ford Sales & Production
      ══════════════════════════════════════════════════════════════════════ -->
 <div id="tab-explorer" class="tab-content active">
 
@@ -163,12 +162,12 @@
       <!-- Row 2 -->
       <div class="ctrl-row2">
         <div class="ctrl-group">
-          <label for="sel-dataset">Data</label>
-          <select id="sel-dataset">
-            <option value="production">Production</option>
-            <option value="sales">Sales</option>
-            <option value="both">Both — compare</option>
-          </select>
+          <label>Data</label>
+          <div class="dataset-tabs" id="dataset-tabs">
+            <button type="button" data-ds="production" class="active">Production</button>
+            <button type="button" data-ds="sales">Sales</button>
+            <button type="button" data-ds="both">Both</button>
+          </div>
         </div>
         <div class="ctrl-group">
           <label for="sel-vehicle">Vehicle</label>

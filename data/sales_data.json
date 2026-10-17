@@ -1789,7 +1789,8 @@
       "source": "Ford Motor Company official monthly production reports.",
       "sales": "U.S. sales by nameplate, Jan 2023 onward. Quarter-closing months (Mar/Jun/Sep/Dec) are not published standalone by Ford and are derived from the quarterly release's year-to-date column.",
       "sales_2026": "Sales data covers Jan-Sep 2026; Full Year column shows YTD total."
-    }
+    },
+    "lastUpdated": "2026-10-17"
   },
   "sales": {
     "2023": {

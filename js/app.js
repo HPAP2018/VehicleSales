@@ -170,7 +170,7 @@ function buildControls() {
       document.querySelectorAll("#dataset-tabs button").forEach(b2 =>
         b2.classList.toggle("active", b2 === btn));
       buildYearPills();
-      populateVehicleSelect(document.getElementById("inp-search").value.toLowerCase());
+      populateVehicleSelect();
       render();
     });
   });
@@ -182,16 +182,11 @@ function buildControls() {
   MONTHS.forEach((m, i) => mSel.appendChild(new Option(MONTH_FULL[i], m)));
   mSel.addEventListener("change", () => { state.month = mSel.value; render(); });
 
-  // Search
-  document.getElementById("inp-search").addEventListener("input", e => {
-    populateVehicleSelect(e.target.value.toLowerCase());
-  });
-
   // View toggle
   document.getElementById("btn-chart").addEventListener("click", () => setView("chart"));
   document.getElementById("btn-table").addEventListener("click", () => setView("table"));
 
-  populateVehicleSelect("");
+  populateVehicleSelect();
 }
 
 function buildYearPills() {
@@ -227,16 +222,16 @@ function toggleYear(year) {
   document.querySelectorAll(".year-pill").forEach(btn =>
     btn.classList.toggle("active", state.years.includes(btn.dataset.year))
   );
-  populateVehicleSelect(document.getElementById("inp-search").value.toLowerCase());
+  populateVehicleSelect();
   render();
 }
 
-function populateVehicleSelect(search = "") {
+function populateVehicleSelect() {
   // Union of vehicles across all selected years and active datasets
   const all = new Set();
   activeDatasets().forEach(ds =>
     state.years.forEach(y => vehicleKeys(ds, y).forEach(v => all.add(v))));
-  const vehicles = [...all].sort().filter(v => !search || v.toLowerCase().includes(search));
+  const vehicles = [...all].sort();
 
   const vSel = document.getElementById("sel-vehicle");
   const prev = vSel.value;
@@ -628,12 +623,10 @@ function chartOpts(titleText) {
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
 function getFilteredVehicles() {
-  const search = document.getElementById("inp-search")?.value.toLowerCase() || "";
   const all    = new Set();
   activeDatasets().forEach(ds =>
     state.years.forEach(y => vehicleKeys(ds, y).forEach(v => all.add(v))));
   let vehicles = [...all].sort();
-  if (search)                  vehicles = vehicles.filter(v => v.toLowerCase().includes(search));
   if (state.vehicle !== "all") vehicles = vehicles.filter(v => v === state.vehicle);
   return vehicles;
 }

@@ -160,7 +160,10 @@ body {
   border-bottom: 2px solid var(--ink);
   overflow: hidden;
   position: relative;
+  /* Holds its height while empty so the bar stays reserved */
+  min-height: 38px;
 }
+.ticker-track:empty { animation: none; }
 .ticker::before, .ticker::after {
   content: "";
   position: absolute; top: 0; bottom: 0;
@@ -528,7 +531,6 @@ body {
   background: var(--surface);
   box-shadow: 0 0 0 3px var(--acid);
 }
-.ctrl-search { min-width: 220px; flex: 1; max-width: 320px; }
 
 .view-toggle {
   display: flex;

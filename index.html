@@ -53,35 +53,9 @@
     </div>
   </div>
 
-  <!-- Marquee ticker -->
+  <!-- Banner bar — intentionally empty, space reserved for future content -->
   <div class="ticker" aria-hidden="true">
-    <div class="ticker-track">
-      <span class="ticker-item"><b>F-150</b> all-time monthly high <em>61,945</em> Mar ’21</span>
-      <span class="ticker-sep">✱</span>
-      <span class="ticker-item"><b>Bronco</b> revival peak <em>15,092</em> Aug ’22</span>
-      <span class="ticker-sep">✱</span>
-      <span class="ticker-item"><b>Mach-E</b> output up <em>+22%</em> YoY</span>
-      <span class="ticker-sep">✱</span>
-      <span class="ticker-item"><b>Maverick</b> went from 0 to <em>91k</em> in 12 months</span>
-      <span class="ticker-sep">✱</span>
-      <span class="ticker-item"><b>Super Duty</b> sustained <em>~300k/yr</em> through ’21–’25</span>
-      <span class="ticker-sep">✱</span>
-      <span class="ticker-item"><b>30</b> assembly plants on 5 continents</span>
-      <span class="ticker-sep">✱</span>
-      <!-- repeat for seamless loop -->
-      <span class="ticker-item"><b>F-150</b> all-time monthly high <em>61,945</em> Mar ’21</span>
-      <span class="ticker-sep">✱</span>
-      <span class="ticker-item"><b>Bronco</b> revival peak <em>15,092</em> Aug ’22</span>
-      <span class="ticker-sep">✱</span>
-      <span class="ticker-item"><b>Mach-E</b> output up <em>+22%</em> YoY</span>
-      <span class="ticker-sep">✱</span>
-      <span class="ticker-item"><b>Maverick</b> went from 0 to <em>91k</em> in 12 months</span>
-      <span class="ticker-sep">✱</span>
-      <span class="ticker-item"><b>Super Duty</b> sustained <em>~300k/yr</em> through ’21–’25</span>
-      <span class="ticker-sep">✱</span>
-      <span class="ticker-item"><b>30</b> assembly plants on 5 continents</span>
-      <span class="ticker-sep">✱</span>
-    </div>
+    <div class="ticker-track" id="ticker-track"></div>
   </div>
 </header>
 
@@ -176,10 +150,6 @@
         <div class="ctrl-group">
           <label for="sel-month">Period</label>
           <select id="sel-month"><option value="all">Full Year</option></select>
-        </div>
-        <div class="ctrl-group ctrl-search">
-          <label for="inp-search">Search</label>
-          <input type="text" id="inp-search" placeholder="Bronco, F-150, Mach-E…" />
         </div>
         <div class="view-toggle">
           <button id="btn-chart" class="active">

@@ -308,10 +308,19 @@ function buildSummaryCards() {
     });
     const prod = state.years.reduce((s, y) => s + total("production", y), 0);
     const sold = state.years.reduce((s, y) => s + total("sales", y), 0);
-    cards.appendChild(summaryCard("Difference", (prod - sold).toLocaleString(),
-      prod >= sold ? "built above sold" : "sold above built"));
-    if (sold > 0) cards.appendChild(summaryCard("Sell-through",
-      ((sold / prod) * 100).toFixed(1) + "%", "sales ÷ production"));
+    // Some vehicles sell with nothing built here — imports like Edge and
+    // Nautilus, and nameplates whose plant is idle, such as Escape in 2026.
+    // Either way there is no ratio to show, so say so rather than divide by zero.
+    if (prod === 0 && sold > 0) {
+      cards.appendChild(summaryCard("Sold", sold.toLocaleString(), "no North American production"));
+      cards.appendChild(summaryCard("Sell-through", "n/a", "no production to compare"));
+    } else {
+      cards.appendChild(summaryCard("Difference", (prod - sold).toLocaleString(),
+        prod >= sold ? "built above sold" : "sold above built"));
+      if (sold > 0) cards.appendChild(summaryCard("Sell-through",
+        ((sold / prod) * 100).toFixed(1) + "%", "sales ÷ production"));
+      else if (prod > 0) cards.appendChild(summaryCard("Sell-through", "n/a", "no US sales reported"));
+    }
     return cards;
   }
 

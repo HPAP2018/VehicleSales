@@ -1,0 +1,40 @@
+name: Update stock quote
+
+on:
+  schedule:
+    # 22:00 UTC on weekdays — after the 4pm US close in both EST and EDT.
+    # GitHub may delay cron runs under load.
+    - cron: "0 22 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stock-quote
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch quote
+        run: python scripts/update_stock.py
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- data/stock.json; then
+            echo "quote unchanged, nothing to commit"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/stock.json
+          git commit -m "Update stock quote [skip ci]"
+          git push

@@ -550,10 +550,12 @@ function buildMixedChart(ctx, keys, labels, series, title) {
 
 /* ── Shared chart options ────────────────────────────────────────────────── */
 function chartOpts(titleText) {
-  // Panel is light, so axis text and gridlines are ink rather than paper
-  const paper      = "#16130E";
-  const paperMute  = "rgba(22,19,14,.62)";
+  // Panel is light, so axis text and gridlines are ink. The tooltip keeps a
+  // dark ground of its own, so its text stays light — don't reuse these.
+  const ink        = "#16130E";
+  const inkMute    = "rgba(22,19,14,.62)";
   const gridSoft   = "rgba(22,19,14,.10)";
+  const onDark     = "#F3EBDB";
   const fontStack  = '"Inter Tight", system-ui, sans-serif';
   const monoStack  = '"JetBrains Mono", ui-monospace, monospace';
 
@@ -569,7 +571,7 @@ function chartOpts(titleText) {
           boxWidth: 10,
           boxHeight: 10,
           padding: 14,
-          color: paper,
+          color: ink,
           font: { family: fontStack, size: 11, weight: "600" },
           usePointStyle: true,
           pointStyle: "rectRounded",
@@ -581,7 +583,7 @@ function chartOpts(titleText) {
         borderWidth: 1.5,
         titleColor: "#D8F048",
         titleFont: { family: fontStack, size: 12, weight: "700" },
-        bodyColor: paper,
+        bodyColor: onDark,
         bodyFont: { family: monoStack, size: 11 },
         padding: 10,
         cornerRadius: 6,
@@ -594,7 +596,7 @@ function chartOpts(titleText) {
         display: !!titleText,
         text: titleText,
         font: { family: fontStack, size: 12, weight: "600" },
-        color: paperMute,
+        color: inkMute,
         padding: { bottom: 12 },
       },
     },
@@ -604,7 +606,7 @@ function chartOpts(titleText) {
         grid:   { color: gridSoft, drawBorder: false },
         border: { display: false },
         ticks: {
-          color: paperMute,
+          color: inkMute,
           font: { family: monoStack, size: 10 },
           callback: v => v >= 1000 ? (v / 1000).toFixed(0) + "k" : v,
         },
@@ -613,7 +615,7 @@ function chartOpts(titleText) {
         grid:   { color: gridSoft, drawBorder: false },
         border: { display: false },
         ticks: {
-          color: paperMute,
+          color: inkMute,
           font: { family: monoStack, size: 10 },
         },
       },

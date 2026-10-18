@@ -164,6 +164,30 @@ body {
   min-height: 38px;
 }
 .ticker-track:empty { animation: none; }
+/* Stock strip */
+.tk-sym {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: .95rem;
+  background: var(--ink);
+  color: var(--acid);
+  padding: .08rem .45rem;
+  border-radius: 3px;
+  margin-right: .45rem;
+}
+.tk-name { font-weight: 600; }
+.tk-k {
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .64rem;
+  opacity: .72;
+  margin-right: .4rem;
+}
+.tk-v { font-weight: 700; font-variant-numeric: tabular-nums; }
+.tk-v.tk-last { font-size: .92rem; }
+.tk-v.up   { color: #0B6B3A; }
+.tk-v.down { color: #B3261E; }
+.tk-asof { font-size: .68rem; opacity: .7; font-style: italic; }
 .ticker::before, .ticker::after {
   content: "";
   position: absolute; top: 0; bottom: 0;

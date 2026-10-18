@@ -1,0 +1,18 @@
+{
+  "symbol": "F",
+  "name": "Ford Motor Company",
+  "currency": "USD",
+  "price": 12.43,
+  "change": 0.12,
+  "changePercent": 0.97,
+  "volume": 49267345,
+  "dayHigh": 12.78,
+  "dayLow": 12.4,
+  "fiftyTwoWeekHigh": 17.78,
+  "fiftyTwoWeekLow": 11.11,
+  "open": 12.55,
+  "previousOpen": 12.14,
+  "previousClose": 12.31,
+  "asOf": "10/16/2026 4:02 PM EDT",
+  "fetchedAt": "2026-10-18T02:18:03Z"
+}

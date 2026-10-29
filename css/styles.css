@@ -162,6 +162,25 @@ body {
   position: relative;
   /* Holds its height while empty so the bar stays reserved */
   min-height: 38px;
+  display: flex;
+  align-items: stretch;
+}
+/* Quote timestamp stays put; the figures scroll in the space beside it */
+.ticker-fixed {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 0 .85rem;
+  border-right: 2px solid var(--ink);
+  background: var(--acid);
+  white-space: nowrap;
+  z-index: 2;
+}
+.ticker-fixed:empty { display: none; }
+.ticker-scroll {
+  flex: 1 1 auto;
+  overflow: hidden;
+  min-width: 0;
 }
 .ticker-track:empty { animation: none; }
 /* Stock strip */

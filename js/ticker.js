@@ -30,7 +30,6 @@
       `<span class="tk-k">52w&nbsp;Low</span><span class="tk-v">$${num(d.fiftyTwoWeekLow)}</span>`,
       `<span class="tk-k">Prev&nbsp;Open</span><span class="tk-v">$${num(d.previousOpen)}</span>`,
       `<span class="tk-k">Prev&nbsp;Close</span><span class="tk-v">$${num(d.previousClose)}</span>`,
-      `<span class="tk-asof">as of ${d.asOf}</span>`,
     ];
   }
 
@@ -43,6 +42,9 @@
       if (!res.ok) return;
       d = await res.json();
     } catch (e) { return; }
+
+    const asOf = document.getElementById("ticker-asof");
+    if (asOf && d.asOf) asOf.innerHTML = `<span class="tk-asof">as of ${d.asOf}</span>`;
 
     // Rendered twice so the marquee can loop without a visible seam
     const once = items(d).map(h => `<span class="ticker-item">${h}</span>`).join('<span class="ticker-sep">✱</span>');

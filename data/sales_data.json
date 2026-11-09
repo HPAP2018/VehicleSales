@@ -1536,10 +1536,10 @@
         "Jul": 14625,
         "Aug": 12332,
         "Sep": 15762,
-        "Oct": null,
+        "Oct": 17969,
         "Nov": null,
         "Dec": null,
-        "Full Year": 135754
+        "Full Year": 153723
       },
       "Maverick": {
         "Jan": 16202,
@@ -1551,10 +1551,10 @@
         "Jul": 13920,
         "Aug": 12266,
         "Sep": 10985,
-        "Oct": null,
+        "Oct": 19274,
         "Nov": null,
         "Dec": null,
-        "Full Year": 133492
+        "Full Year": 152766
       },
       "Ford Mustang": {
         "Jan": 4383,
@@ -1566,10 +1566,10 @@
         "Jul": 4213,
         "Aug": 5391,
         "Sep": 5823,
-        "Oct": null,
+        "Oct": 5553,
         "Nov": null,
         "Dec": null,
-        "Full Year": 44769
+        "Full Year": 50322
       },
       "Mustang GTD": {
         "Jan": 42,
@@ -1581,10 +1581,10 @@
         "Jul": 57,
         "Aug": 50,
         "Sep": 54,
-        "Oct": null,
+        "Oct": 68,
         "Nov": null,
         "Dec": null,
-        "Full Year": 438
+        "Full Year": 506
       },
       "Ranger": {
         "Jan": 3716,
@@ -1596,10 +1596,10 @@
         "Jul": 6921,
         "Aug": 8597,
         "Sep": 8559,
-        "Oct": null,
+        "Oct": 9003,
         "Nov": null,
         "Dec": null,
-        "Full Year": 58550
+        "Full Year": 67553
       },
       "Bronco": {
         "Jan": 10550,
@@ -1611,10 +1611,10 @@
         "Jul": 11788,
         "Aug": 15025,
         "Sep": 14735,
-        "Oct": null,
+        "Oct": 15843,
         "Nov": null,
         "Dec": null,
-        "Full Year": 127066
+        "Full Year": 142909
       },
       "Mustang Mach-E": {
         "Jan": 3826,
@@ -1626,10 +1626,10 @@
         "Jul": 2626,
         "Aug": 3172,
         "Sep": 1761,
-        "Oct": null,
+        "Oct": 3037,
         "Nov": null,
         "Dec": null,
-        "Full Year": 26735
+        "Full Year": 29772
       },
       "Ford F-Series (F-150)": {
         "Jan": 42841,
@@ -1641,10 +1641,10 @@
         "Jul": 56152,
         "Aug": 57504,
         "Sep": 42846,
-        "Oct": null,
+        "Oct": 62082,
         "Nov": null,
         "Dec": null,
-        "Full Year": 447676
+        "Full Year": 509758
       },
       "Ford F-Series (Super Duty)": {
         "Jan": 15329,
@@ -1656,10 +1656,10 @@
         "Jul": 35872,
         "Aug": 39263,
         "Sep": 35140,
-        "Oct": null,
+        "Oct": 40399,
         "Nov": null,
         "Dec": null,
-        "Full Year": 286010
+        "Full Year": 326409
       },
       "Ford Expedition": {
         "Jan": 7061,
@@ -1671,10 +1671,10 @@
         "Jul": 7412,
         "Aug": 7547,
         "Sep": 8597,
-        "Oct": null,
+        "Oct": 7718,
         "Nov": null,
         "Dec": null,
-        "Full Year": 73129
+        "Full Year": 80847
       },
       "Lincoln Navigator": {
         "Jan": 2195,
@@ -1686,10 +1686,10 @@
         "Jul": 2353,
         "Aug": 1578,
         "Sep": 1896,
-        "Oct": null,
+        "Oct": 2221,
         "Nov": null,
         "Dec": null,
-        "Full Year": 19885
+        "Full Year": 22106
       },
       "Ford Explorer": {
         "Jan": 22532,
@@ -1701,10 +1701,10 @@
         "Jul": 21571,
         "Aug": 24969,
         "Sep": 25656,
-        "Oct": null,
+        "Oct": 26765,
         "Nov": null,
         "Dec": null,
-        "Full Year": 218957
+        "Full Year": 245722
       },
       "Lincoln Aviator": {
         "Jan": 2116,
@@ -1716,10 +1716,10 @@
         "Jul": 2469,
         "Aug": 3068,
         "Sep": 3153,
-        "Oct": null,
+        "Oct": 3371,
         "Nov": null,
         "Dec": null,
-        "Full Year": 22132
+        "Full Year": 25503
       },
       "Ford Transit": {
         "Jan": 10800,
@@ -1731,10 +1731,10 @@
         "Jul": 11376,
         "Aug": 17474,
         "Sep": 16672,
-        "Oct": null,
+        "Oct": 12049,
         "Nov": null,
         "Dec": null,
-        "Full Year": 133544
+        "Full Year": 145593
       },
       "Ford Econoline": {
         "Jan": 3198,
@@ -1746,10 +1746,10 @@
         "Jul": 3914,
         "Aug": 3289,
         "Sep": 2768,
-        "Oct": null,
+        "Oct": 4321,
         "Nov": null,
         "Dec": null,
-        "Full Year": 31025
+        "Full Year": 35346
       },
       "Medium Truck": {
         "Jan": 864,
@@ -1761,10 +1761,10 @@
         "Jul": 973,
         "Aug": 938,
         "Sep": 1259,
-        "Oct": null,
+        "Oct": 1532,
         "Nov": null,
         "Dec": null,
-        "Full Year": 8695
+        "Full Year": 10227
       },
       "Stripped Chassis": {
         "Jan": 648,
@@ -1776,21 +1776,21 @@
         "Jul": 1217,
         "Aug": 1281,
         "Sep": 1186,
-        "Oct": null,
+        "Oct": 1348,
         "Nov": null,
         "Dec": null,
-        "Full Year": 9892
+        "Full Year": 11240
       }
     }
   },
   "_meta": {
     "notes": {
-      "2026": "Data covers Jan-Sep 2026; Full Year column shows YTD total.",
+      "2026": "Data covers Jan-Oct 2026; Full Year column shows YTD total.",
       "source": "Ford Motor Company official monthly production reports.",
       "sales": "U.S. sales by nameplate, Jan 2023 onward. Quarter-closing months (Mar/Jun/Sep/Dec) are not published standalone by Ford and are derived from the quarterly release's year-to-date column.",
-      "sales_2026": "Sales data covers Jan-Sep 2026; Full Year column shows YTD total."
+      "sales_2026": "Sales data covers Jan-Oct 2026; Full Year column shows YTD total."
     },
-    "lastUpdated": "2026-10-17"
+    "lastUpdated": "2026-11-08"
   },
   "sales": {
     "2023": {
@@ -2725,10 +2725,10 @@
         "Jul": 1430,
         "Aug": 1732,
         "Sep": 1725,
-        "Oct": null,
+        "Oct": 2789,
         "Nov": null,
         "Dec": null,
-        "Full Year": 18309
+        "Full Year": 21098
       },
       "Bronco": {
         "Jan": 10814,
@@ -2740,10 +2740,10 @@
         "Jul": 13075,
         "Aug": 12204,
         "Sep": 12741,
-        "Oct": null,
+        "Oct": 10712,
         "Nov": null,
         "Dec": null,
-        "Full Year": 114956
+        "Full Year": 125668
       },
       "Bronco Sport": {
         "Jan": 10641,
@@ -2755,10 +2755,10 @@
         "Jul": 12095,
         "Aug": 11827,
         "Sep": 10829,
-        "Oct": null,
+        "Oct": 10356,
         "Nov": null,
         "Dec": null,
-        "Full Year": 106238
+        "Full Year": 116594
       },
       "Corsair": {
         "Jan": 1619,
@@ -2770,7 +2770,7 @@
         "Jul": 147,
         "Aug": 266,
         "Sep": 0,
-        "Oct": null,
+        "Oct": 0,
         "Nov": null,
         "Dec": null,
         "Full Year": 8414
@@ -2785,10 +2785,10 @@
         "Jul": 3013,
         "Aug": 3095,
         "Sep": 3137,
-        "Oct": null,
+        "Oct": 2721,
         "Nov": null,
         "Dec": null,
-        "Full Year": 27474
+        "Full Year": 30195
       },
       "Edge": {
         "Jan": 0,
@@ -2800,7 +2800,7 @@
         "Jul": 0,
         "Aug": 0,
         "Sep": 0,
-        "Oct": null,
+        "Oct": 0,
         "Nov": null,
         "Dec": null,
         "Full Year": 0
@@ -2815,10 +2815,10 @@
         "Jul": 2624,
         "Aug": 1446,
         "Sep": 644,
-        "Oct": null,
+        "Oct": 150,
         "Nov": null,
         "Dec": null,
-        "Full Year": 28826
+        "Full Year": 28976
       },
       "Expedition": {
         "Jan": 5269,
@@ -2830,10 +2830,10 @@
         "Jul": 5797,
         "Aug": 7765,
         "Sep": 6298,
-        "Oct": null,
+        "Oct": 8546,
         "Nov": null,
         "Dec": null,
-        "Full Year": 60271
+        "Full Year": 68817
       },
       "Explorer": {
         "Jan": 17655,
@@ -2845,10 +2845,10 @@
         "Jul": 18904,
         "Aug": 19801,
         "Sep": 23580,
-        "Oct": null,
+        "Oct": 23885,
         "Nov": null,
         "Dec": null,
-        "Full Year": 189210
+        "Full Year": 213095
       },
       "F-Series": {
         "Jan": 47981,
@@ -2860,10 +2860,10 @@
         "Jul": 68755,
         "Aug": 67504,
         "Sep": 67448,
-        "Oct": null,
+        "Oct": 73482,
         "Nov": null,
         "Dec": null,
-        "Full Year": 561508
+        "Full Year": 634990
       },
       "Heavy Trucks": {
         "Jan": 764,
@@ -2875,10 +2875,10 @@
         "Jul": 1031,
         "Aug": 783,
         "Sep": 555,
-        "Oct": null,
+        "Oct": 681,
         "Nov": null,
         "Dec": null,
-        "Full Year": 7922
+        "Full Year": 8603
       },
       "Maverick": {
         "Jan": 9885,
@@ -2890,10 +2890,10 @@
         "Jul": 15522,
         "Aug": 13680,
         "Sep": 12768,
-        "Oct": null,
+        "Oct": 11466,
         "Nov": null,
         "Dec": null,
-        "Full Year": 123681
+        "Full Year": 135147
       },
       "Mustang": {
         "Jan": 3609,
@@ -2905,10 +2905,10 @@
         "Jul": 3406,
         "Aug": 3647,
         "Sep": 2907,
-        "Oct": null,
+        "Oct": 3092,
         "Nov": null,
         "Dec": null,
-        "Full Year": 38685
+        "Full Year": 41777
       },
       "Mustang Mach-E": {
         "Jan": 1040,
@@ -2920,10 +2920,10 @@
         "Jul": 1863,
         "Aug": 1989,
         "Sep": 1722,
-        "Oct": null,
+        "Oct": 1239,
         "Nov": null,
         "Dec": null,
-        "Full Year": 17206
+        "Full Year": 18445
       },
       "Nautilus": {
         "Jan": 1988,
@@ -2935,10 +2935,10 @@
         "Jul": 1868,
         "Aug": 3627,
         "Sep": 3571,
-        "Oct": null,
+        "Oct": 3083,
         "Nov": null,
         "Dec": null,
-        "Full Year": 27248
+        "Full Year": 30331
       },
       "Navigator": {
         "Jan": 1572,
@@ -2950,10 +2950,10 @@
         "Jul": 1655,
         "Aug": 1881,
         "Sep": 1586,
-        "Oct": null,
+        "Oct": 2096,
         "Nov": null,
         "Dec": null,
-        "Full Year": 15516
+        "Full Year": 17612
       },
       "Ranger": {
         "Jan": 5671,
@@ -2965,10 +2965,10 @@
         "Jul": 5823,
         "Aug": 6033,
         "Sep": 5705,
-        "Oct": null,
+        "Oct": 5656,
         "Nov": null,
         "Dec": null,
-        "Full Year": 51630
+        "Full Year": 57286
       },
       "Transit": {
         "Jan": 8159,
@@ -2980,10 +2980,10 @@
         "Jul": 12943,
         "Aug": 13401,
         "Sep": 13916,
-        "Oct": null,
+        "Oct": 14169,
         "Nov": null,
         "Dec": null,
-        "Full Year": 119185
+        "Full Year": 133354
       }
     }
   }
